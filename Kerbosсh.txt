@@ -1,0 +1,65 @@
+list<set<int>> kerbosh(vector<vector<int>> &a, int SIZE)
+{
+	set <int> M, G, K, P;
+	list<set<int> > REZULT;
+	for (int i = 0; i<SIZE; i++)
+	{
+		K.insert(i);
+	}
+	int v, Count = 0, cnt = 0;
+	int Stack1[100];
+	set<int> Stack2[100];
+	auto theIterator = K.begin();
+	while ((K.size() != 0) || (M.size() != 0))
+	{
+		if (K.size() != 0)
+		{
+			theIterator = K.begin();
+			v = *theIterator;
+			Stack2[++Count] = M;
+			Stack2[++Count] = K;
+			Stack2[++Count] = P;
+			Stack1[++cnt] = v;
+			M.insert(v);
+			for (int i = 0; i<SIZE; i++)
+			{
+				if (a[v][i])
+				{
+					theIterator = K.find(i);
+					if (theIterator != K.end())
+					{
+						K.erase(theIterator);
+					}
+					theIterator = P.find(i);
+					if (theIterator != P.end())
+					{
+						P.erase(theIterator);
+					}
+				}
+			}
+			theIterator = K.find(v);
+			if (theIterator != K.end())
+			{
+				K.erase(theIterator);
+			}
+		}
+		else
+		{
+			if (P.size() == 0)
+			{
+				REZULT.push_back(M);
+			}
+			v = Stack1[cnt--];
+			P = Stack2[Count--];
+			K = Stack2[Count--];
+			M = Stack2[Count--];
+			theIterator = K.find(v);
+			if (theIterator != K.end())
+			{
+				K.erase(theIterator);
+			}
+			P.insert(v);
+		}
+	}
+	return  REZULT;
+}
