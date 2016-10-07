@@ -190,6 +190,14 @@ void generste_list(list<vector<unsigned>> &neutral_bits_set){
 			}*/
 		//}
 	}
+	for (int i = 0; i < 512; i++){
+		for (int j = i + 1; j < 512; j++){
+			vector<unsigned> neutral_bit_vec(16, 0);
+			neutral_bit_vec[i / 32] ^= 1 << (i % 32);
+			neutral_bit_vec[j / 32] ^= 1 << (j % 32);
+			neutral_bits_set.push_back(neutral_bit_vec);
+		}
+	}
 }
 
 class adj_matrix{
@@ -204,6 +212,8 @@ public:
 	void fill(list<vector<unsigned>> new_neutral_bits_set, message M1, message M2, difference D){
 		int z = 0, x = 0;
 		for (auto it = new_neutral_bits_set.begin(); it != new_neutral_bits_set.end(); it++) {
+			//if (z % 100 == 0)
+				//cout << z <<" "<<x<<endl;
 			x = 0;
 			for (auto q = new_neutral_bits_set.begin(); q != new_neutral_bits_set.end(); q++) {
 				const message_cupple tmp(xor_vec(*it, *q, M1.W), xor_vec(*it, *q, M2.W), R);
@@ -221,11 +231,205 @@ public:
 		}
 		for (unsigned i = 0; i < adj[1].size(); i++){
 			for (unsigned j = i+1; j < adj[1].size(); j++){
-				if (adj[i][j] != 0)
+				if (adj[i][j] != 0){
 					g.addEdge(i, j);
-					//cout << i << " " << j << endl;
+					cout << i << " " << j << endl;
+				}
 			}
 		}
 		cout << endl;
 	}
 };
+
+
+int check(vector<vector<int>> &a, set <int> &K, set <int> &P){
+	if (P.size() == 0)
+		return 1;
+	bool connected;
+	for (auto v = P.begin(); v != P.end(); v++) {
+		connected = true;
+		for (auto i = K.begin(); i != K.end(); i++)
+			if (!a[*v][*i])
+				connected = false;
+		if (connected){
+			//cout << "check failed";
+			return 0;
+		}
+	}
+	return 1;
+}
+
+void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates, set <int> not, set <int> M){
+	//cout << "!";
+	//set <int> M;
+	set <int> K, P;
+	int v, SIZE = a[1].size();
+	auto theIterator = candidates.begin();
+	while ((candidates.size() != 0) && check(a, candidates, not)){
+		K.clear();
+		P.clear();
+		for (auto it = not.begin(); it != not.end(); it++) { P.insert(*it); }
+		for (auto it = candidates.begin(); it != candidates.end(); it++) { K.insert(*it); }
+		v = *candidates.begin();
+		M.insert(v);
+		for (int i = 0; i < SIZE; i++)
+		{
+			if (!a[v][i])
+			{
+				theIterator = K.find(i);
+				if (theIterator != K.end())
+				{
+					K.erase(theIterator);
+				}
+				theIterator = P.find(i);
+				if (theIterator != P.end())
+				{
+					P.erase(theIterator);
+				}
+			}
+		}
+		theIterator = K.find(v);
+		if (theIterator != K.end())
+		{
+			K.erase(theIterator);
+		}
+		if ((P.size() == 0) && (K.size() == 0))
+		{
+			REZULT.push_back(M);
+			cout << M.size() << " ";
+		}
+		else{
+			/*cout << "K ";
+			for (auto it = K.begin(); it != K.end(); it++) { cout << *it << " "; }
+			cout << endl << "M ";
+			for (auto it = M.begin(); it != M.end(); it++) { cout << *it << " "; }
+			cout << endl << "P ";
+			for (auto it = P.begin(); it != P.end(); it++) { cout << *it << " "; }*/
+			if (REZULT.size() < 100){
+				extend(a, REZULT, K, P, M);
+			}
+			else{
+				cout << "stop ";
+				break;
+			}
+		}
+		theIterator = candidates.find(v);
+		if (theIterator != candidates.end())
+		{
+			candidates.erase(theIterator);
+		}
+		theIterator = M.find(v);
+		if (theIterator != M.end())
+		{
+			M.erase(theIterator);
+		}
+		not.insert(v);
+		
+		/*cout << "v " << v  << endl;
+		cout << endl << "candidates ";
+		for (auto it = candidates.begin(); it != candidates.end(); it++) { cout << *it << " "; }
+		cout << endl << "not ";
+		for (auto it = not.begin(); it != not.end(); it++) { cout << *it << " "; }
+		cout << endl;*/
+	}
+}
+
+list<set<int>> kerbosh(vector<vector<int>> &a, int SIZE)
+{
+	set <int> M, K, P;
+	list<set<int> > REZULT;
+	for (int i = 0; i < SIZE; i++)
+	{
+		K.insert(i);
+	}
+	extend(a, REZULT, K, P, M);
+	set<int> REZ = *REZULT.begin();
+	int k = REZULT.begin()->size();
+	for (auto it = REZULT.begin(); it != REZULT.end(); it++){
+		if (it->size() >= k)
+			REZ = *it;
+	}
+	cout << endl << "kerbosh completed" << endl;
+	return REZULT;
+}
+
+
+
+
+
+//void rec_kerbosch(set<int> M, G, K, P){}
+
+/*list<set<int>> kerbosh(vector<vector<int>> &a, int SIZE)
+{
+set <int> M, G, K, P;
+list<set<int> > REZULT;
+for (int i = 0; i<SIZE; i++)
+{
+K.insert(i);
+}
+int v, Count = 0, cnt = 0;
+int Stack1[10000];
+set<int> Stack2[10000];
+set<int>::iterator theIterator;
+theIterator = K.begin();
+while (((K.size() != 0) || (M.size() != 0)) && REZULT.size()<3)
+{
+//cout << Count << " ";
+if (K.size() != 0)
+{
+theIterator = K.begin();
+v = *theIterator;
+Stack2[++Count] = M;
+Stack2[++Count] = K;
+Stack2[++Count] = P;
+Stack1[++cnt] = v;
+M.insert(v);
+for (int i = 0; i<SIZE; i++)
+{
+if (!a[v][i])
+{
+theIterator = K.find(i);
+if (theIterator != K.end())
+{
+K.erase(theIterator);
+}
+theIterator = P.find(i);
+if (theIterator != P.end())
+{
+P.erase(theIterator);
+}
+}
+}
+theIterator = K.find(v);
+if (theIterator != K.end())
+{
+K.erase(theIterator);
+}
+}
+else
+{
+if (P.size() == 0)
+{
+REZULT.push_back(M);
+cout << M.size() <<" ";
+}
+v = Stack1[cnt--];
+P = Stack2[Count--];
+K = Stack2[Count--];
+M = Stack2[Count--];
+theIterator = K.find(v);
+if (theIterator != K.end())
+{
+K.erase(theIterator);
+}
+P.insert(v);
+}
+}
+set<int> REZ = *REZULT.begin();
+int k = REZULT.begin()->size();
+for (auto it = REZULT.begin(); it != REZULT.end(); it++){
+if (it->size() >= k)
+REZ = *it;
+}
+return REZULT;
+}*/

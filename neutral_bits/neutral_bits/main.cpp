@@ -9,8 +9,6 @@
 #include <tuple>
 #include "classes.h"
 
-
-
 void main(){
 	FILE* f;
 	vector<unsigned int> dif(128, 0);
@@ -54,15 +52,21 @@ void main(){
 	adj_matrix adj(new_neutral_bits_set.size());
 
 	adj.fill(new_neutral_bits_set, M1, M2, D);
-	Graph g = Graph();
-	adj.edges(g);
+	//Graph g = Graph();
+	//adj.edges(g);
 
-	vector< set<int>> cliques = g.find_all_cliques();
+	cout << "filled" << endl;
 
-	auto it = cliques.begin(); 
-	for (auto q = (*it).begin(); q != (*it).end(); q++) { cout << *q << " "; }
+	list<set<int>> clique = kerbosh(adj.adj,adj.adj[1].size());
+
 	cout << endl;
+	auto it = clique.begin();
+	//for ( it != clique.end(); it++){//{ cout << *it << " "; }
+		for (auto q = it->begin(); q != it->end(); q++){ cout << *q << " "; }
+		cout << endl;
+	//}
 	
+	cout << endl <<"clique size "<<clique.begin()->size();
 
 	//cout << dec << endl << "final_size " << final_neutral_bits_set.size() << endl;
 	//for (auto it = new_neutral_bits_set.begin(); it != new_neutral_bits_set.end(); it++) { show_number(*it);}
