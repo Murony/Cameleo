@@ -1,6 +1,6 @@
 #include "classes.h"
 
-vector<unsigned> xor_vec(vector<unsigned> a, vector<unsigned> b){
+vector<unsigned> xor_vec(const vector<unsigned> &a, const vector<unsigned> &b){
 	vector<unsigned> c(81, 0);
 	for (unsigned i = 0; i < min(a.size(), b.size()); i++){
 		c[i] = a[i] ^ b[i];
@@ -8,7 +8,7 @@ vector<unsigned> xor_vec(vector<unsigned> a, vector<unsigned> b){
 	return c;
 }
 
-vector<unsigned> xor_vec(vector<unsigned> a, vector<unsigned> b, vector<unsigned> d){
+vector<unsigned> xor_vec(const vector<unsigned> &a, const vector<unsigned> &b, const vector<unsigned> &d){
 	vector<unsigned> c(81, 0);
 	for (unsigned i = 0; i < min(a.size(), min(b.size(), d.size())); i++){
 		c[i] = a[i] ^ b[i] ^ d[i];
@@ -16,7 +16,7 @@ vector<unsigned> xor_vec(vector<unsigned> a, vector<unsigned> b, vector<unsigned
 	return c;
 }
 
-vector<unsigned> xor_vec(vector<unsigned> a, vector<unsigned> b, vector<unsigned> d, vector<unsigned> e){
+vector<unsigned> xor_vec(const vector<unsigned> &a, const vector<unsigned> &b, const vector<unsigned> &d, const vector<unsigned> &e){
 	vector<unsigned> c(81, 0);
 	for (unsigned i = 0; i < min(a.size(), min(b.size(), min(d.size(), e.size()))); i++){
 		c[i] = a[i] ^ b[i] ^ d[i] ^ e[i];
@@ -24,7 +24,7 @@ vector<unsigned> xor_vec(vector<unsigned> a, vector<unsigned> b, vector<unsigned
 	return c;
 }
 
-vector<unsigned> xor_vec(vector<unsigned> a, vector<int> vec){
+vector<unsigned> xor_vec(vector<unsigned> a, const vector<int> &vec){
 	for (int i = 0; i < 5; i++){
 		if (vec[i] != -1)
 			a[vec[i] / 32] ^= 1 << (vec[i] % 32);
@@ -32,7 +32,7 @@ vector<unsigned> xor_vec(vector<unsigned> a, vector<int> vec){
 	return a;
 }
 
-vector<unsigned> xor_vec(vector<unsigned> a, vector<int> v1, vector<int> v2){
+vector<unsigned> xor_vec(vector<unsigned> a, const vector<int> &v1, const vector<int> &v2){
 	for (int i = 0; i < 5; i++){
 		if (v1[i] != -1)
 			a[v1[i] / 32] ^= 1 << (v1[i] % 32);
@@ -58,7 +58,7 @@ vector<unsigned> xor_vec(vector<unsigned> a, int b, int c, int d, int e, int f){
 	return a;
 }
 
-void show_number(vector<int> v, ofstream &fout){
+void show_number(const vector<int> &v, ofstream &fout){
 	for (int i = 0; i < 5; i++){
 		if (v[i] != -1){
 			cout << v[i] << " ";
@@ -68,18 +68,6 @@ void show_number(vector<int> v, ofstream &fout){
 	cout << endl;
 	fout << endl;
 }
-/*void show_number(vector<unsigned> v, ofstream &fout){
-	for (int i = 0; i < 16; i++){
-		for (int j = 0; j < 32; j++){
-			if ((v[i] & (1 << j)) != 0){
-				cout << dec << i * 32 + j << "   ";
-				fout << dec << i * 32 + j << "   ";
-			}
-		}
-	}
-	cout << endl;
-	fout << endl;
-}*/
 
 vector<int> convert_vector(const vector<unsigned> &v){
 	int k = 0;
@@ -95,7 +83,7 @@ vector<int> convert_vector(const vector<unsigned> &v){
 	return neutral_set;
 }
 
-void show_clique(const set<int> clique, const list<vector<int>> new_neutral_bits_set, list<vector<int>> final_set){
+void show_clique(const set<int> &clique, const list<vector<int>> &new_neutral_bits_set, list<vector<int>> &final_set){
 	int w = 0;
 	ofstream fout("nbits.txt");
 	for (auto q = clique.begin(); q != clique.end(); q++){

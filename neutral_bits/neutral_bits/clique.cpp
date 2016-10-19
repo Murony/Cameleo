@@ -10,7 +10,6 @@ int check(vector<vector<int>> &a, set <int> &K, set <int> &P){
 			if (!a[*v][*i])
 				connected = false;
 		if (connected){
-			//cout << "check failed";
 			return 0;
 		}
 	}
@@ -18,8 +17,6 @@ int check(vector<vector<int>> &a, set <int> &K, set <int> &P){
 }
 
 void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates, set <int> not, set <int> M){
-	//cout << "!";
-	//set <int> M;
 	set <int> K, P;
 	int v, SIZE = a[1].size();
 	auto theIterator = candidates.begin();
@@ -54,15 +51,9 @@ void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates
 		if ((P.size() == 0) && (K.size() == 0))
 		{
 			REZULT.push_back(M);
-			cout << M.size() << " ";
+			//cout << M.size() << " ";
 		}
 		else{
-			/*cout << "K ";
-			for (auto it = K.begin(); it != K.end(); it++) { cout << *it << " "; }
-			cout << endl << "M ";
-			for (auto it = M.begin(); it != M.end(); it++) { cout << *it << " "; }
-			cout << endl << "P ";
-			for (auto it = P.begin(); it != P.end(); it++) { cout << *it << " "; }*/
 			if (REZULT.size() < 1000){
 				extend(a, REZULT, K, P, M);
 			}
@@ -82,13 +73,6 @@ void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates
 			M.erase(theIterator);
 		}
 		not.insert(v);
-
-		/*cout << "v " << v  << endl;
-		cout << endl << "candidates ";
-		for (auto it = candidates.begin(); it != candidates.end(); it++) { cout << *it << " "; }
-		cout << endl << "not ";
-		for (auto it = not.begin(); it != not.end(); it++) { cout << *it << " "; }
-		cout << endl;*/
 	}
 }
 

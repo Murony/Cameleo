@@ -30,7 +30,7 @@ unsigned key(int round){
 	}
 }
 
-message::message(vector<unsigned> In){
+message::message(const vector<unsigned> &In){
 	W = vector<unsigned>(80, 0);
 	a = vector<unsigned>(81, 0);
 	b = vector<unsigned>(81, 0);
@@ -57,7 +57,7 @@ message::message(vector<unsigned> In){
 	}
 }
 
-message::message(vector<unsigned> In, int max_round){
+message::message(const vector<unsigned> &In, int max_round){
 	W = vector<unsigned>(80, 0);
 	a = vector<unsigned>(81, 0);
 	b = vector<unsigned>(81, 0);
@@ -84,7 +84,23 @@ message::message(vector<unsigned> In, int max_round){
 	}
 }
 
-difference::difference(message m1, message m2){
+void message::modify(const vector<unsigned> &In, int max_round){
+	W = In;
+	for (int i = 16; i <= max_round; i++){
+		W[i] = (W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16]);
+		//W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)));
+	}
+	for (int i = 0; i <= max_round; i++){
+		unsigned f = round_function(b[i], c[i], d[i], i);
+		a[i + 1] = (e[i] + ((a[i] << 5) | (a[i] >> (32 - 5))) + f + W[i] + key(i))&MASK;
+		b[i + 1] = a[i];
+		c[i + 1] = ((b[i] << 30) | (b[i] >> 2))&MASK;
+		d[i + 1] = c[i];
+		e[i + 1] = d[i];
+	}
+}
+
+difference::difference(const message &m1, const message &m2){
 	dif = vector<unsigned>(81, 0);
 	/*for (int i = 0; i <= 23; i++){
 	dif[i] = m1.a[i] ^ m2.a[i];
@@ -122,7 +138,7 @@ difference::difference(message m1, message m2){
 	//cout << endl;
 }
 
-int difference::equal(const message m1, const message m2, int r)const{
+int difference::equal(const message& m1, const message& m2, int r)const{
 	for (int i = 1; i < r; i++){
 		if ((m1.a[i] ^ m2.a[i]) != dif[i])
 			return i;
@@ -130,35 +146,7 @@ int difference::equal(const message m1, const message m2, int r)const{
 	return r;
 }
 
-int difference::equal(const message_cupple cup, int r)const{
+int difference::equal(const message_cupple& cup, int r)const{
 	return equal(cup.m1, cup.m2, r);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*	void edges(Graph &g){
-		for (unsigned i = 0; i < adj[1].size(); i++){
-			g.addNode(i);
-		}
-		for (unsigned i = 0; i < adj[1].size(); i++){
-			for (unsigned j = 0; j < adj[1].size(); j++){
-				if (adj[i][j] != 0){
-					g.addEdge(i, j);
-					cout << i << " " << j << endl;
-				}
-			}
-		}
-		cout << endl;
-		}*/
