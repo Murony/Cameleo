@@ -64,11 +64,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="clique.cpp" />
+    <ClCompile Include="helpers.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="sha.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="classes.h" />
-    <ClInclude Include="graph.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
