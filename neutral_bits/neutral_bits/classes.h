@@ -57,6 +57,7 @@ public:
 	difference(const message &m1, const message &m2);
 	int equal(const message &m1, const message &m2, int r)const;
 	int equal(const message_cupple &cup, int r)const;
+	void print(const message& m1, const message& m2, int r)const;
 };
 
 int check(vector<vector<int>> &a, set <int> &K, set <int> &P);
@@ -74,8 +75,8 @@ public:
 			adj[i] = vector<int>(size, 0);
 		}
 	}
-	void fill(list<vector<int>> new_neutral_bits_set, message M1, message M2, difference D);
-	void show(list<vector<int>> new_neutral_bits_set, message M1, message M2, difference D);
+	void fill(const list<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D);
+	void show(const list<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D);
 	void edges();
 };
 

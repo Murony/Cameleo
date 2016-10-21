@@ -51,10 +51,13 @@ void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates
 		if ((P.size() == 0) && (K.size() == 0))
 		{
 			REZULT.push_back(M);
-			//cout << M.size() << " ";
+			if (REZULT.size()%100==0)
+				cout << M.size() << " ";
+			if (M.size()>20)
+				cout <<"here m size->"<< M.size() << " ";
 		}
 		else{
-			if (REZULT.size() < 1000){
+			if (REZULT.size() < 10000000){
 				extend(a, REZULT, K, P, M);
 			}
 			else{
@@ -86,30 +89,34 @@ void kerbosh(vector<vector<int>> &a, int SIZE, set<int> &clique)
 	}
 	extend(a, REZULT, K, P, M);
 	set<int> REZ = *REZULT.begin();
-	int k = REZULT.begin()->size();
+	unsigned k = REZULT.begin()->size();
 	for (auto it = REZULT.begin(); it != REZULT.end(); it++){
 		if (it->size() > k){
 			REZ = *it;
 			k = it->size();
 		}
 	}
-	cout << endl << "kerbosh completed" << endl;
 	clique = REZ;
 	return;
 }
 
-void adj_matrix::fill(list<vector<int>> new_neutral_bits_set, message M1, message M2, difference D){
+void adj_matrix::fill(const list<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D){
 	int z = 0, x = 0;
+	message tmp_m1(M1.W);
+	message tmp_m2(M1.W);
 	for (auto it = new_neutral_bits_set.begin(); it != new_neutral_bits_set.end(); it++) {
 		x = 0;
 		for (auto q = new_neutral_bits_set.begin(); q != new_neutral_bits_set.end(); q++) {
-			const message_cupple tmp(xor_vec(M1.W, *it, *q), xor_vec(M2.W, *it, *q), R);
-			if (D.equal(tmp, R) == R){
+			tmp_m1.modify(xor_vec(M1.W, *it, *q), R);
+			tmp_m2.modify(xor_vec(M2.W, *it, *q), R);
+			if (D.equal(tmp_m1, tmp_m2, R) == R){
 				adj[z][x] = 1;
 			}
 			x++;
 		}
 		z++;
+		if ((z + 1) % 100 == 0)
+			cout << z << " ";
 	}
 }
 
@@ -124,7 +131,7 @@ void adj_matrix::edges(){
 	cout << endl;
 }
 
-void adj_matrix::show(list<vector<int>> new_neutral_bits_set, message M1, message M2, difference D){
+void adj_matrix::show(const list<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D){
 	int z = 0, x = 0;
 	for (auto it = new_neutral_bits_set.begin(); it != new_neutral_bits_set.end(); it++) {
 		x = 0;

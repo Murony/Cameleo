@@ -102,7 +102,7 @@ void message::modify(const vector<unsigned> &In, int max_round){
 
 difference::difference(const message &m1, const message &m2){
 	dif = vector<unsigned>(81, 0);
-	/*for (int i = 0; i <= 23; i++){
+	/*for (int i = 0; i <= 30; i++){
 	dif[i] = m1.a[i] ^ m2.a[i];
 	cout << hex << dif[i] << " ";
 	}
@@ -144,6 +144,17 @@ int difference::equal(const message& m1, const message& m2, int r)const{
 			return i;
 	}
 	return r;
+}
+
+void difference::print(const message& m1, const message& m2, int r)const{
+	for (int i = 0; i < 16; i++){
+		cout << hex << (m1.W[i]) << " ";
+	}
+	cout << endl;
+	for (int i = 0; i < 23; i++){
+		cout << hex << (m1.a[i] ^ m2.a[i])<<" ";
+	}
+	cout << endl;
 }
 
 int difference::equal(const message_cupple& cup, int r)const{
