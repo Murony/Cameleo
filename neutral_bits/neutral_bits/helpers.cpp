@@ -24,13 +24,13 @@ vector<unsigned> xor_vec(const vector<unsigned> &a, const vector<unsigned> &b, c
 	return c;
 }
 
-vector<unsigned> xor_vec(vector<unsigned> a, const vector<int> &vec){
+/*vector<unsigned> xor_vec(vector<unsigned> a, const vector<int> &vec){
 	for (int i = 0; i < 5; i++){
 		if (vec[i] != -1)
 			a[vec[i] / 32] ^= 1 << (vec[i] % 32);
 	}
 	return a;
-}
+}*/
 
 vector<unsigned> xor_vec(vector<unsigned> a, const vector<int> &v1, const vector<int> &v2){
 	for (int i = 0; i < 5; i++){
@@ -62,8 +62,8 @@ void show_number(const vector<int> &v, ofstream &fout){
 	for (int i = 0; i < 5; i++){
 		if (v[i] != -1){
 			cout << v[i] << " ";
-			fout << v[i] << " ";
 		}
+		fout << v[i] << " ";
 	}
 	cout << endl;
 	fout << endl;
@@ -83,9 +83,9 @@ vector<int> convert_vector(const vector<unsigned> &v){
 	return neutral_set;
 }
 
-void show_clique(const set<int> &clique, const list<vector<int>> &new_neutral_bits_set, list<vector<int>> &final_set){
+void show_clique(const set<int> &clique, const vector<vector<int>> &new_neutral_bits_set, vector<vector<int>> &final_set){
 	int w = 0;
-	ofstream fout("nbits.txt");
+	ofstream fout("clique.txt");
 	for (auto q = clique.begin(); q != clique.end(); q++){
 		w = 0;
 		for (auto t = new_neutral_bits_set.begin(); t != new_neutral_bits_set.end(); t++){

@@ -16,6 +16,8 @@ int check(vector<vector<int>> &a, set <int> &K, set <int> &P){
 	return 1;
 }
 
+int stop_flag = 0;
+
 void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates, set <int> not, set <int> M){
 	set <int> K, P;
 	int v, SIZE = a[1].size();
@@ -53,11 +55,13 @@ void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates
 			REZULT.push_back(M);
 			if (REZULT.size()%100==0)
 				cout << M.size() << " ";
-			if (M.size()>20)
-				cout <<"here m size->"<< M.size() << " ";
+			if (M.size() >= 36)
+				stop_flag = 1;
+				//cout <<"here m size->"<< M.size() << " ";
 		}
 		else{
-			if (REZULT.size() < 10000000){
+			//if (REZULT.size() < 100000){
+			if (!stop_flag){
 				extend(a, REZULT, K, P, M);
 			}
 			else{
@@ -105,18 +109,40 @@ void adj_matrix::fill(const list<vector<int>> &new_neutral_bits_set, const messa
 	message tmp_m1(M1.W);
 	message tmp_m2(M1.W);
 	for (auto it = new_neutral_bits_set.begin(); it != new_neutral_bits_set.end(); it++) {
-		x = 0;
-		for (auto q = new_neutral_bits_set.begin(); q != new_neutral_bits_set.end(); q++) {
+		x = z;
+		for (auto q = it; q != new_neutral_bits_set.end(); q++) {
 			tmp_m1.modify(xor_vec(M1.W, *it, *q), R);
 			tmp_m2.modify(xor_vec(M2.W, *it, *q), R);
 			if (D.equal(tmp_m1, tmp_m2, R) == R){
 				adj[z][x] = 1;
+				adj[x][z] = 1;
 			}
 			x++;
 		}
 		z++;
 		if ((z + 1) % 100 == 0)
 			cout << z << " ";
+	}
+}
+
+void adj_matrix::fill(const vector<vector<int>> &v, const message &M1, const message &M2, const difference &D){
+	int z = 0;
+	omp_set_num_threads(16);
+
+	#pragma omp parallel for
+	for (z = 0; z < v.size(); z++) {
+		message tmp_m1(M1.W);
+		message tmp_m2(M1.W);
+		for (int x = z; x < v.size(); x++) {
+			tmp_m1.modify(xor_vec(M1.W, v[z], v[x]), R);
+			tmp_m2.modify(xor_vec(M2.W, v[z], v[x]), R);
+			if (D.equal(tmp_m1, tmp_m2, R) == R){
+				adj[z][x] = 1;
+				adj[x][z] = 1;
+			}
+		}
+		if ((z + 1) % 100 == 0)
+			cout << z+1 << " ";
 	}
 }
 

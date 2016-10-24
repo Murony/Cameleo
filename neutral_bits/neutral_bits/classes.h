@@ -8,6 +8,7 @@
 #include <stack>
 #include <tuple>
 #include <fstream>
+#include <omp.h>
 
 #define MASK 0xffffffff
 #define R 23
@@ -22,19 +23,38 @@ vector<unsigned> xor_vec(const vector<unsigned> &a, const vector<unsigned> &b, c
 
 vector<unsigned> xor_vec(vector<unsigned> a, const vector<int> &v1, const vector<int> &v2);
 
+inline
+vector<unsigned> xor_vec(vector<unsigned> a, const vector<int> &vec){
+	for (int i = 0; i < 5; i++){
+		if (vec[i] != -1)
+			a[vec[i] / 32] ^= 1 << (vec[i] % 32);
+	}
+	return a;
+}
+
+inline
+void xor(vector<unsigned> &a, const vector<int> &vec){
+	for (int i = 0; i < 5; i++){
+		if (vec[i] != -1)
+			a[vec[i] / 32] ^= 1 << (vec[i] % 32);
+	}
+	return;
+}
+
 vector<unsigned> xor_vec(vector<unsigned> a, int b, int c, int d, int e, int f);
 
 void show_number(const vector<unsigned> &v);
 
 class message{
+public:
 	vector<unsigned int> b;
 	vector<unsigned int> c;
 	vector<unsigned int> d;
 	vector<unsigned int> e;
-public:
 	vector<unsigned int> W;
 	vector<unsigned int> a;
 	message(const vector<unsigned> &in);
+	message(const vector<unsigned> &in, char a);
 	message(const vector<unsigned> &in, int max_round);
 	message(){}
 	void modify(const vector<unsigned> &In, int max_round);
@@ -58,6 +78,8 @@ public:
 	int equal(const message &m1, const message &m2, int r)const;
 	int equal(const message_cupple &cup, int r)const;
 	void print(const message& m1, const message& m2, int r)const;
+	void print(int r)const;
+	int modify(message& m1, message& m2)const;
 };
 
 int check(vector<vector<int>> &a, set <int> &K, set <int> &P);
@@ -77,9 +99,10 @@ public:
 	}
 	void fill(const list<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D);
 	void show(const list<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D);
+	void fill(const vector<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D);
 	void edges();
 };
 
-void show_clique(const set<int> &clique, const list<vector<int>> &new_neutral_bits_set, list<vector<int>> &sfinal_set);
+void show_clique(const set<int> &clique, const vector<vector<int>> &new_neutral_bits_set, vector<vector<int>> &final_set);
 
 vector<int> convert_vector(const vector<unsigned> &v);
