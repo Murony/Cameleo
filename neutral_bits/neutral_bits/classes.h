@@ -9,9 +9,10 @@
 #include <tuple>
 #include <fstream>
 #include <omp.h>
+#include <string>
 
 #define MASK 0xffffffff
-#define R 23
+#define R 22
 
 using namespace std;
 
@@ -75,6 +76,7 @@ class difference{
 public:
 	vector<unsigned> dif;
 	difference(const message &m1, const message &m2);
+	difference();
 	int equal(const message &m1, const message &m2, int r)const;
 	int equal(const message_cupple &cup, int r)const;
 	void print(const message& m1, const message& m2, int r)const;

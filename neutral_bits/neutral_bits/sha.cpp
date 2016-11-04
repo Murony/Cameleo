@@ -1,14 +1,16 @@
 #include "classes.h"
 
+#define sha1 0
+
 inline
 unsigned round_function(unsigned b, unsigned c, unsigned d, int round){
 	if (round < 20) {
 		return (b & c) | (~b & d);
 	}
-	else if (round >= 20 && round < 40) {
+	else if ((round >= 20) && (round < 40)) {
 		return b ^ c ^ d;
 	}
-	else if (round >= 40 && round < 60) {
+	else if ((round >= 40) && (round < 60)) {
 		return (b & c) | (b & d) | (c & d);
 	}
 	else {
@@ -19,7 +21,7 @@ unsigned round_function(unsigned b, unsigned c, unsigned d, int round){
 inline
 unsigned key(int round){
 	if (round < 20) {
-		return 0x5A827999;
+		return 0x5A827999; 
 	}
 	else if (round >= 20 && round < 40) {
 		return 0x6ED9EBA1;
@@ -47,7 +49,8 @@ message::message(const vector<unsigned> &In){
 	W = In;
 	for (int i = 16; i<80; i++){
 		W[i] = (W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16]);
-		//W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)));
+		if (sha1)
+			W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)))&MASK;
 	}
 	for (int i = 0; i < 80; i++){
 		unsigned f = round_function(b[i], c[i], d[i], i);
@@ -69,7 +72,8 @@ message::message(const vector<unsigned> &In, char n)
 	W = In;
 	for (int i = 16; i<80; i++){
 		W[i] = (W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16]);
-		//W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)));
+		if (sha1)
+			W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)))&MASK;
 	}
 	for (int i = 0; i < 80; i++){
 		unsigned f = round_function(b[i], c[i], d[i], i);
@@ -96,7 +100,8 @@ message::message(const vector<unsigned> &In, int max_round){
 	W = In;
 	for (int i = 16; i <= max_round; i++){
 		W[i] = (W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16]);
-		//W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)));
+		if (sha1)
+			W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)))&MASK;
 	}
 	for (int i = 0; i <= max_round; i++){
 		unsigned f = round_function(b[i], c[i], d[i], i);
@@ -112,7 +117,8 @@ void message::modify(const vector<unsigned> &In, int max_round){
 	W = In;
 	for (int i = 16; i <= max_round; i++){
 		W[i] = (W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16]);
-		//W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)));
+		if (sha1)
+			W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)))&MASK;
 	}
 	for (int i = 0; i <= max_round; i++){
 		unsigned f = round_function(b[i], c[i], d[i], i);
@@ -133,7 +139,11 @@ int difference::modify(message& m1, message& m2)const{
 
 		if (i>15){
 			m1.W[i] = (m1.W[i - 3] ^ m1.W[i - 8] ^ m1.W[i - 14] ^ m1.W[i - 16]);
+			if (sha1)
+				m1.W[i] = ((m1.W[i] << 1) | (m1.W[i] >> (32 - 1)))&MASK;
 			m2.W[i] = (m2.W[i - 3] ^ m2.W[i - 8] ^ m2.W[i - 14] ^ m2.W[i - 16]);
+			if (sha1)
+				m2.W[i] = ((m2.W[i] << 1) | (m2.W[i] >> (32 - 1)))&MASK;
 		}
 
 		f = round_function(m1.b[i], m1.c[i], m1.d[i], i);
@@ -174,7 +184,8 @@ difference::difference(const message &m1, const message &m2){
 	W = dif;
 	for (int i = 16; i<80; i++){
 		W[i] = (W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16]);
-		//W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)));
+		if (sha1)
+			W[i] = ((W[i] << 1) | (W[i] >> (32 - 1)))&MASK;
 	}
 	for (int i = 0; i < 80; i++){
 		unsigned f = b[i] ^ c[i] ^ d[i];
@@ -192,7 +203,7 @@ difference::difference(const message &m1, const message &m2){
 }
 
 int difference::equal(const message& m1, const message& m2, int r)const{
-	for (int i = 1; i < r; i++){
+	for (int i = 1; i <= r; i++){
 		if ((m1.a[i] ^ m2.a[i]) != dif[i])
 			return i-1;
 	}
@@ -201,7 +212,7 @@ int difference::equal(const message& m1, const message& m2, int r)const{
 
 void difference::print(int r)const{
 	cout << endl;
-	for (int i = 0; i < r; i++){
+	for (int i = 0; i <= r; i++){
 		cout << hex << dif[i] << " ";
 	}
 	cout << endl;
@@ -212,7 +223,7 @@ void difference::print(const message& m1, const message& m2, int r)const{
 		//cout << hex << (m1.W[i]) << " ";
 	}
 	cout << endl;
-	for (int i = 0; i < r; i++){
+	for (int i = 0; i <= r; i++){
 		cout << hex << (m1.a[i] ^ m2.a[i])<<" ";
 	}
 	cout << endl;
@@ -221,4 +232,3 @@ void difference::print(const message& m1, const message& m2, int r)const{
 int difference::equal(const message_cupple& cup, int r)const{
 	return equal(cup.m1, cup.m2, r);
 }
-

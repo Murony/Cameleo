@@ -55,13 +55,13 @@ void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates
 			REZULT.push_back(M);
 			if (REZULT.size()%100==0)
 				cout << M.size() << " ";
-			if (M.size() >= 36)
+			if (M.size() >= 35)
 				stop_flag = 1;
 				//cout <<"here m size->"<< M.size() << " ";
 		}
 		else{
-			//if (REZULT.size() < 100000){
-			if (!stop_flag){
+			if ((REZULT.size() < 100000) && (!stop_flag)){
+			//if (!stop_flag){
 				extend(a, REZULT, K, P, M);
 			}
 			else{

@@ -7,8 +7,8 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 	for (int i = 0; i < 40; i++)
 		power[pow(2, i)] = i;
 
-	int min_power = pow(2, 27);
-	int max_power = pow(2, 28);
+	long long min_power = 0;//52833389152; //pow(2, 27);
+	long long max_power = pow(2, final_set.size()); 52833389152 + 1; //pow(2, 36);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -20,11 +20,11 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 	
 	omp_set_num_threads(16);
 	#pragma omp parallel for
-	for (int i = min_power; i < max_power; i++){
+	for (long long i = min_power; i < max_power; i++){
 		tmp1[omp_get_thread_num()].W = M1.W;
 		tmp2[omp_get_thread_num()].W = M2.W;
 		int k = 0;
-		for (int j = 1; j <= i; j *= 2){
+		for (long long j = 1; j <= i; j *= 2){
 			if ((i&j) != 0){
 				//cout << dec << i << " " << j << " " << (i&j) << endl;
 				xor(tmp1[omp_get_thread_num()].W, final_set[k]);
@@ -32,11 +32,11 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 			}
 			k++;
 		}
-		if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) > 55){
+		if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) > 56){
 			cout << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl; //<< " " << tmp1[omp_get_thread_num()].a[49]  
 			found_i << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl;
 			//D.print(35);
-			//D.print(tmp_m1, tmp_m2, 35);
+			//D.print(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80);
 		}
 	}
 	cout << endl << "Brute Force done: ";
@@ -49,12 +49,12 @@ void main(){
 	FILE* f;
 	vector<unsigned int> W1(80, 0);
 	vector<unsigned int> W2(80, 0);
-	fopen_s(&f, "m1_start.txt", "r");
+	fopen_s(&f, "m1_16.txt", "r");
 	for (int i = 0; i < 16; i++){
 		fscanf_s(f, "%x ", &W1[i]);
 	}
 	fclose(f);
-	fopen_s(&f, "m2_start.txt", "r");
+	fopen_s(&f, "m2_16.txt", "r");
 	for (int i = 0; i < 16; i++){
 		fscanf_s(f, "%x ", &W2[i]);
 	}
@@ -84,9 +84,9 @@ void main(){
 
 	vector<vector<int>> final_set;
 
-	int just_read_from_file = 1;
+	int just_read_from_file = 0;
 	if (just_read_from_file){
-		final_set = vector<vector<int>>(40, { -1, -1, -1, -1, -1 });
+		//final_set = vector<vector<int>>(40, { -1, -1, -1, -1, -1 });
 		read_clique(final_set);
 		cout << "final set size:" << final_set.size() << endl;
 
