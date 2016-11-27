@@ -23,7 +23,7 @@ void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neut
 	omp_set_num_threads(16);
 
 	//*
-#pragma omp parallel for
+	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
 		message tmp_m1(M1.W);
 		message tmp_m2(M2.W);
@@ -89,7 +89,7 @@ void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neut
 
 	/*
 	#pragma omp parallel for
-	for (int v = 400; v < 512; v++){
+	for (int v = 0; v < 512; v++){
 		message tmp_m1(M1.W);
 		message tmp_m2(M2.W);
 		time_t t = time(NULL);
@@ -188,7 +188,7 @@ void constructor(const message &M1, const message &M2, const difference &D){
 
 	cout << dec << endl << "size " << neutral_bits_set.size() << endl;
 
-	construct_neutral_set(neutral_bits, neutral_bits_set, new_neutral_bits_set, M1, M2, D);
+	//construct_neutral_set(neutral_bits, neutral_bits_set, new_neutral_bits_set, M1, M2, D);
 
 	read(neutral_vectors);
 

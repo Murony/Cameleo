@@ -225,6 +225,8 @@ void difference::print(const message& m1, const message& m2, int r)const{
 	cout << endl;
 	for (int i = 0; i <= r; i++){
 		cout << hex << (m1.a[i] ^ m2.a[i])<<" ";
+		//if ((m1.a[i] ^ m2.a[i]) != 0)
+		//	cout << "Here it is";
 	}
 	cout << endl;
 }

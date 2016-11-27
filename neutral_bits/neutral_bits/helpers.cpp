@@ -107,3 +107,34 @@ void generate_list(list<vector<unsigned>> &neutral_bits_set, set<int> &neutral_b
 		neutral_bits.insert(i);
 	}
 }
+
+void print_results(const message &m1, const message &m2, const message &start_m1, const message &start_m2, int r){
+	ofstream fout("results.txt");
+	cout << endl << endl << "First found message:" << endl << endl;
+	fout << endl << endl << "First found message:" << endl << endl;
+	for (int i = 0; i < 16; i++){
+		cout << hex << m1.W[i] << " ";
+		fout << hex << m1.W[i] << " ";
+	}
+	cout << endl << endl << "Second found message:" << endl << endl;
+	fout << endl << endl << "Second found message:" << endl << endl;
+	for (int i = 0; i < 16; i++){
+		cout << hex << m2.W[i] << " ";
+		fout << hex << m2.W[i] << " ";
+	}
+	cout << endl << endl << "Mask:" << endl << endl;
+	fout << endl << endl << "Mask:" << endl << endl;
+	for (int i = 0; i <= 16; i++){
+		cout << hex << (m1.W[i] ^ start_m1.W[i]) << " ";
+		fout << hex << (m1.W[i] ^ start_m1.W[i]) << " ";
+	}
+	cout << endl << endl << dec << "Difference " << r << " steps:" << endl << endl;
+	fout << endl << endl << dec << "Difference " << r << " steps:" << endl << endl;
+	for (int i = 0; i <= r; i++){
+		cout << hex << (m1.a[i] ^ m2.a[i]) << " ";
+		fout << hex << (m1.a[i] ^ m2.a[i]) << " ";
+	}
+	cout << endl << endl;
+	fout << endl << endl;
+	fout.close();
+}

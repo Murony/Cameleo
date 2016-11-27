@@ -1,0 +1,67 @@
+﻿created neutral_bits
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#	new file:   "Kerbos\321\201h.txt"
+#	deleted:    first_type/.vs/pc/v14/.suo
+#	deleted:    first_type/Debug/pc.exe
+#	deleted:    first_type/Debug/pc.ilk
+#	deleted:    first_type/Debug/pc.pdb
+#	deleted:    first_type/alg1.cpp
+#	deleted:    first_type/alg2.cpp
+#	deleted:    first_type/class.cpp
+#	deleted:    first_type/cudaCW.cpp
+#	deleted:    first_type/functions.cpp
+#	deleted:    first_type/massives.cpp
+#	deleted:    first_type/pc.VC.db
+#	deleted:    first_type/pc.sdf
+#	deleted:    first_type/pc.sln
+#	deleted:    first_type/pc.v12.suo
+#	deleted:    first_type/pc/64cost32.txt
+#	deleted:    first_type/pc/70cost42.txt
+#	deleted:    first_type/pc/72cost45.txt
+#	deleted:    first_type/pc/73cost46.txt
+#	deleted:    first_type/pc/75cost51.txt
+#	deleted:    first_type/pc/Debug/pc.Build.CppClean.log
+#	deleted:    first_type/pc/Debug/pc.log
+#	deleted:    first_type/pc/Debug/pc.tlog/CL.read.1.tlog
+#	deleted:    first_type/pc/Debug/pc.tlog/CL.write.1.tlog
+#	deleted:    first_type/pc/Debug/pc.tlog/cl.command.1.tlog
+#	deleted:    first_type/pc/Debug/pc.tlog/link.command.1.tlog
+#	deleted:    first_type/pc/Debug/pc.tlog/link.read.1.tlog
+#	deleted:    first_type/pc/Debug/pc.tlog/link.write.1.tlog
+#	deleted:    first_type/pc/Debug/pc.tlog/pc.lastbuildstate
+#	deleted:    first_type/pc/Debug/template.obj
+#	deleted:    first_type/pc/Debug/vc120.idb
+#	deleted:    first_type/pc/Debug/vc120.pdb
+#	deleted:    first_type/pc/Debug/vc140.idb
+#	deleted:    first_type/pc/Debug/vc140.pdb
+#	deleted:    first_type/pc/W_80.txt
+#	deleted:    first_type/pc/a.txt
+#	deleted:    first_type/pc/b.txt
+#	deleted:    first_type/pc/cost_59_full.txt
+#	deleted:    first_type/pc/pc.vcxproj.filters
+#	deleted:    first_type/template.cpp
+#	new file:   neutral_bits/neutral_bits/classes.h
+#	new file:   neutral_bits/neutral_bits/graph.h
+#	new file:   neutral_bits/neutral_bits/m1.txt
+#	new file:   neutral_bits/neutral_bits/m1_16.txt
+#	new file:   neutral_bits/neutral_bits/m1_start.txt
+#	new file:   neutral_bits/neutral_bits/m2.txt
+#	new file:   neutral_bits/neutral_bits/m2_16.txt
+#	new file:   neutral_bits/neutral_bits/m2_start.txt
+#	new file:   neutral_bits/neutral_bits/main.cpp
+#	renamed:    first_type/pc/pc.vcxproj -> neutral_bits/neutral_bits/neutral_bits.vcxproj
+#
+# Untracked files:
+#	neutral_bits/Debug/
+#	neutral_bits/neutral_bits.opensdf
+#	neutral_bits/neutral_bits.sdf
+#	neutral_bits/neutral_bits.sln
+#	neutral_bits/neutral_bits.v12.suo
+#	neutral_bits/neutral_bits/Debug/
+#	neutral_bits/neutral_bits/neutral_bits.vcxproj.filters
+#	yxghx0xe.2kr.txt
+#
+

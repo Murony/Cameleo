@@ -95,7 +95,7 @@ public:
 	vector<vector<int>> adj;
 	adj_matrix(int size){
 		adj.resize(size);
-		for (unsigned i = 0; i < adj.size(); i++){
+		for (unsigned i = 0; i < size; i++){
 			adj[i] = vector<int>(size, 0);
 		}
 	}
@@ -108,3 +108,5 @@ public:
 void show_clique(const set<int> &clique, const vector<vector<int>> &new_neutral_bits_set, vector<vector<int>> &final_set);
 
 vector<int> convert_vector(const vector<unsigned> &v);
+
+void print_results(const message &m1, const message &m2, const message &start_m1, const message &start_m2, int r);

@@ -1,0 +1,4 @@
+﻿1>------ Сборка начата: проект: neutral_bits, Конфигурация: Debug Win32 ------
+1>  helpers.cpp
+1>LINK : fatal error LNK1168: не удается открыть E:\Cameleo\neutral_bits\Debug\neutral_bits.exe для записи
+========== Сборка: успешно: 0, с ошибками: 1, без изменений: 0, пропущено: 0 ==========
