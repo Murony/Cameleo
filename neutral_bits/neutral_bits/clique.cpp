@@ -55,10 +55,10 @@ void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates
 			REZULT.push_back(M);
 			if (REZULT.size()%100==0)
 				cout << M.size() << " ";
-			if (M.size() >= 30)
+			if (M.size() >= CLIQUE_SIZE)
 				stop_flag = 1;
-			if (M.size() >= 26)
-				cout << " new size " << M.size() << " ";
+			//if (M.size() >= 26)
+				//cout << " new size " << M.size() << " ";
 				//cout <<"here m size->"<< M.size() << " ";
 		}
 		else{

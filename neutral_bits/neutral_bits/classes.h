@@ -13,6 +13,7 @@
 
 #define MASK 0xffffffff
 #define R 22
+#define CLIQUE_SIZE 34
 
 using namespace std;
 

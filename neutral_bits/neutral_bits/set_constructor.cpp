@@ -3,8 +3,23 @@
 void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neutral_bits_set, list<vector<int>>  &new_neutral_bits_set, const message &M1, const message &M2, const difference &D){
 	int r = 0;
 	ofstream pairs("pairs.txt");
+	set<vector<int>> bad_pairs;
 	set<int> bad_set;
-	for (auto v = neutral_bits_set.begin(); v != neutral_bits_set.end();){
+	for (int v = 0; v < 512; v++){
+		message tmp_m1(M1.W);
+		message tmp_m2(M2.W);
+		tmp_m1.modify(xor_vec(M1.W, v, -1, -1, -1, -1), R);
+		tmp_m2.modify(xor_vec(M2.W, v, -1, -1, -1, -1), R);
+		if (D.equal(tmp_m1, tmp_m2, R) == R){
+			#pragma omp critical
+			{
+				pairs << v << " -1 -1 -1 -1" << endl;
+				//bad_pairs.insert(vector<int>{v});
+				bad_set.insert(v);
+			}
+		}
+	}
+	/*for (auto v = neutral_bits_set.begin(); v != neutral_bits_set.end();){
 		const message_cupple tmp(xor_vec(*v, M1.W), xor_vec(*v, M2.W), R);
 		if (D.equal(tmp, R) == R){
 			new_neutral_bits_set.push_back(convert_vector(*v));
@@ -17,7 +32,7 @@ void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neut
 			v++;
 		}
 		r++;
-	}
+	}*/
 	time_t seconds = time(NULL);
 
 	omp_set_num_threads(16);
@@ -28,18 +43,15 @@ void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neut
 		message tmp_m1(M1.W);
 		message tmp_m2(M2.W);
 		if (bad_set.find(v) == bad_set.end()){
-			for (int q = v + 1; q != 512; q++){
+			for (int q = v + 1; q < 512; q++){
 				if (bad_set.find(q) == bad_set.end()){
 					tmp_m1.modify(xor_vec(M1.W, v, q, -1, -1, -1), R);
 					tmp_m2.modify(xor_vec(M2.W, v, q, -1, -1, -1), R);
 					if (D.equal(tmp_m1, tmp_m2, R) == R){
-						vector<int> init(5, -1);
-						init[0] = v;
-						init[1] = q;
 						#pragma omp critical
 						{
 							pairs << v << " " << q << " -1 -1 -1" <<endl;
-							new_neutral_bits_set.push_back(init);
+							bad_pairs.insert(vector<int>{v,q});
 						}
 					}
 				}
@@ -58,21 +70,17 @@ void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neut
 		message tmp_m2(M2.W);
 		time_t t = time(NULL);
 		if (bad_set.find(v) == bad_set.end()){
-			for (int q = v + 1; q != 512; q++){
-				if (bad_set.find(q) == bad_set.end()){
-					for (int w = q + 1; w != 512; w++){
-						if (bad_set.find(w) == bad_set.end()){
+			for (int q = v + 1; q < 512; q++){
+				if ((bad_set.find(q) == bad_set.end()) && (bad_pairs.find({ v, q }) == bad_pairs.end())){
+					for (int w = q + 1; w < 512; w++){
+						if ((bad_set.find(w) == bad_set.end()) && (bad_pairs.find({ v, w }) == bad_pairs.end()) && (bad_pairs.find({ q, w }) == bad_pairs.end())){
 							tmp_m1.modify(xor_vec(M1.W, v, q, w, -1, -1), R);
 							tmp_m2.modify(xor_vec(M2.W, v, q, w, -1, -1), R);
 							if (D.equal(tmp_m1, tmp_m2, R) == R){
-								vector<int> init(5, -1);
-								init[0] = v;
-								init[1] = q;
-								init[2] = w;
 								#pragma omp critical
 								{
 									pairs << v << " " << q << " " << w << " -1 -1" << endl;
-									new_neutral_bits_set.push_back(init);
+									bad_pairs.insert(vector<int>{v, q, w});
 								}
 							}
 						}
@@ -80,38 +88,41 @@ void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neut
 				}
 			}
 		}
-		cout << time(NULL) - t << " ";
+		//cout << time(NULL) - t << " ";
 	}
 	//*/
 	cout << "triplets time: " << time(NULL) - seconds << endl;
 
 	seconds = time(NULL);
 
-	/*
+	//*
 	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
 		message tmp_m1(M1.W);
 		message tmp_m2(M2.W);
 		time_t t = time(NULL);
 		if (bad_set.find(v) == bad_set.end()){
-			for (int q = v + 1; q != 512; q++){
-				if (bad_set.find(q) == bad_set.end()){
-					for (int w = q + 1; w != 512; w++){
-						if (bad_set.find(w) == bad_set.end()){
+			for (int q = v + 1; q < 512; q++){
+				if ((bad_set.find(q) == bad_set.end()) && (bad_pairs.find({ v, q }) == bad_pairs.end())){
+					for (int w = q + 1; w < 512; w++){
+						if ((bad_set.find(w) == bad_set.end()) 
+									&& (bad_pairs.find({ v, w }) == bad_pairs.end()) 
+									&& (bad_pairs.find({ q, w }) == bad_pairs.end()) 
+									&& (bad_pairs.find({ v, q, w }) == bad_pairs.end())){
 							for (int y = w + 1; y != 512; y++){
-								if (bad_set.find(y) == bad_set.end()){
+								if ((bad_set.find(y) == bad_set.end()) 
+											&& (bad_pairs.find({ v, y }) == bad_pairs.end()) 
+											&& (bad_pairs.find({ q, y }) == bad_pairs.end()) 
+											&& (bad_pairs.find({ w, y }) == bad_pairs.end()) 
+											&& (bad_pairs.find({ v, q, y }) == bad_pairs.end())
+											&& (bad_pairs.find({ v, w, y }) == bad_pairs.end())
+											&& (bad_pairs.find({ q, w, y }) == bad_pairs.end())){
 									tmp_m1.modify(xor_vec(M1.W, v, q, w, y, -1), R);
 									tmp_m2.modify(xor_vec(M2.W, v, q, w, y, -1), R);
 									if (D.equal(tmp_m1, tmp_m2, R) == R){
-										vector<int> init(5, -1);
-										init[0] = v;
-										init[1] = q;
-										init[2] = w;
-										init[3] = y;
 										#pragma omp critical
 										{
 											pairs << v << " " << q << " " << w << " " << y << " -1" << endl;
-											new_neutral_bits_set.push_back(init);
 										}
 									}
 								}
@@ -121,8 +132,12 @@ void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neut
 				}
 			}
 		}
-		cout << time(NULL) - t << " ";
+		//cout << time(NULL) - t << " ";
 	}
+
+
+
+
 	//*/
 	cout << "quadroplets time: " << time(NULL) - seconds << endl;
 
@@ -184,7 +199,7 @@ void constructor(const message &M1, const message &M2, const difference &D){
 	vector<vector<int>> neutral_vectors; //(2269, { -1, -1, -1, -1, -1 });
 	vector<vector<int>> final_set;
 
-	generate_list(neutral_bits_set, neutral_bits);
+	//generate_list(neutral_bits_set, neutral_bits);
 
 	cout << dec << endl << "size " << neutral_bits_set.size() << endl;
 
@@ -197,10 +212,8 @@ void constructor(const message &M1, const message &M2, const difference &D){
 	seconds = time(NULL);
 
 	adj_matrix adj(neutral_vectors.size());
-	//adj.fill(new_neutral_bits_set, M1, M2, D);
-	adj.fill(neutral_vectors, M1, M2, D);
 
-	//adj.edges();
+	adj.fill(neutral_vectors, M1, M2, D);
 
 	cout <<endl<< "matrix filled: " << time(NULL) - seconds << endl;
 	seconds = time(NULL);
@@ -226,6 +239,8 @@ void constructor(const message &M1, const message &M2, const difference &D){
 }
 
 
+//adj.fill(new_neutral_bits_set, M1, M2, D);
+//adj.edges();
 
 
 //write_clique(final_set);
