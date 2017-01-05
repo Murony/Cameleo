@@ -13,7 +13,7 @@
 
 #define MASK 0xffffffff
 #define R 22
-#define CLIQUE_SIZE 34
+#define CLIQUE_SIZE 30
 
 using namespace std;
 
@@ -85,19 +85,19 @@ public:
 	int modify(message& m1, message& m2)const;
 };
 
-int check(vector<vector<int>> &a, set <int> &K, set <int> &P);
+int check(vector<vector<char>> &a, set <int> &K, set <int> &P);
 
-void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates, set <int> not, set <int> M);
+void extend(vector<vector<char>> &a, list<set<int>> &REZULT, set <int> candidates, set <int> not, set <int> M);
 
-void kerbosh(vector<vector<int>> &a, int SIZE, set<int> &clique);
+void kerbosh(vector<vector<char>> &a, int SIZE, set<int> &clique, vector<vector<int>> &neutral_vectors);
 
 class adj_matrix{
 public:
-	vector<vector<int>> adj;
+	vector<vector<char>> adj;
 	adj_matrix(int size){
 		adj.resize(size);
 		for (unsigned i = 0; i < size; i++){
-			adj[i] = vector<int>(size, 0);
+			adj[i] = vector<char>(size, 0);
 		}
 	}
 	void fill(const list<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D);

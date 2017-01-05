@@ -96,13 +96,12 @@ void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neut
 	seconds = time(NULL);
 
 	//*
-	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
-		message tmp_m1(M1.W);
-		message tmp_m2(M2.W);
-		time_t t = time(NULL);
 		if (bad_set.find(v) == bad_set.end()){
+			#pragma omp parallel for
 			for (int q = v + 1; q < 512; q++){
+				message tmp_m1(M1.W);
+				message tmp_m2(M2.W);
 				if ((bad_set.find(q) == bad_set.end()) && (bad_pairs.find({ v, q }) == bad_pairs.end())){
 					for (int w = q + 1; w < 512; w++){
 						if ((bad_set.find(w) == bad_set.end()) 
@@ -133,6 +132,7 @@ void construct_neutral_set(set<int> &neutral_bits, list<vector<unsigned>>  &neut
 			}
 		}
 		//cout << time(NULL) - t << " ";
+		cout << v << " ";
 	}
 
 
@@ -219,7 +219,7 @@ void constructor(const message &M1, const message &M2, const difference &D){
 	seconds = time(NULL);
 
 	set<int> clique;
-	kerbosh(adj.adj, adj.adj[1].size(), clique);
+	kerbosh(adj.adj, adj.adj[1].size(), clique, neutral_vectors);
 
 	cout << endl << "kerbosh complited: " << time(NULL) - seconds << endl;
 	seconds = time(NULL);

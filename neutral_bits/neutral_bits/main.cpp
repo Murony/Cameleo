@@ -7,8 +7,8 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 	for (int i = 0; i < 40; i++)
 		power[pow(2, i)] = i;
 
-	long long min_power = pow(2, 30); //52833389152; //pow(2, 27); //24832
-	long long max_power = pow(2, 31); //52833389152 + 1; //pow(2, 36);
+	long long min_power = pow(2, 0); //52833389152; //pow(2, 27); //24832
+	long long max_power = pow(2, 22); //52833389152 + 1; //pow(2, 36);
 	
 	message tmp1[16];
 	message tmp2[16];

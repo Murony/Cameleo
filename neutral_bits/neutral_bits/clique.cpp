@@ -1,6 +1,6 @@
 #include "classes.h"
 
-int check(vector<vector<int>> &a, set <int> &K, set <int> &P){
+int check(vector<vector<char>> &a, set <int> &K, set <int> &P){
 	if (P.size() == 0)
 		return 1;
 	bool connected;
@@ -18,7 +18,11 @@ int check(vector<vector<int>> &a, set <int> &K, set <int> &P){
 
 int stop_flag = 0;
 
-void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates, set <int> not, set <int> M){
+int max_size = 0;
+
+vector<vector<int>> nv;
+
+void extend(vector<vector<char>> &a, list<set<int>> &REZULT, set <int> candidates, set <int> not, set <int> M){
 	set <int> K, P;
 	int v, SIZE = a[1].size();
 	auto theIterator = candidates.begin();
@@ -53,8 +57,13 @@ void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates
 		if ((P.size() == 0) && (K.size() == 0))
 		{
 			REZULT.push_back(M);
-			if (REZULT.size()%100==0)
+			//if (REZULT.size()%100==0)
+			//	cout << M.size() << " ";
+			if (M.size() > max_size){
+				max_size = M.size();
 				cout << M.size() << " ";
+				show_clique(M, nv, nv);
+			}
 			if (M.size() >= CLIQUE_SIZE)
 				stop_flag = 1;
 			//if (M.size() >= 26)
@@ -62,7 +71,7 @@ void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates
 				//cout <<"here m size->"<< M.size() << " ";
 		}
 		else{
-			if ((REZULT.size() < 50000) && (!stop_flag)){
+			if ((REZULT.size() < 100000) && (!stop_flag)){
 			//if (!stop_flag){
 				extend(a, REZULT, K, P, M);
 			}
@@ -85,8 +94,9 @@ void extend(vector<vector<int>> &a, list<set<int>> &REZULT, set <int> candidates
 	}
 }
 
-void kerbosh(vector<vector<int>> &a, int SIZE, set<int> &clique)
+void kerbosh(vector<vector<char>> &a, int SIZE, set<int> &clique, vector<vector<int>> &neutral_vectors)
 {
+	nv = neutral_vectors;
 	set <int> M, K, P;
 	list<set<int> > REZULT;
 	for (int i = 0; i < SIZE; i++)

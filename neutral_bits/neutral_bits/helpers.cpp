@@ -90,7 +90,7 @@ void show_clique(const set<int> &clique, const vector<vector<int>> &new_neutral_
 		w = 0;
 		for (auto t = new_neutral_bits_set.begin(); t != new_neutral_bits_set.end(); t++){
 			if (w == *q){
-				final_set.push_back(*t);
+				//final_set.push_back(*t);
 				show_number(*t, fout);
 			}
 			w++;
