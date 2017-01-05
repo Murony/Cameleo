@@ -17,8 +17,6 @@
 
 using namespace std;
 
-void generate_list(list<vector<unsigned>> &neutral_bits_set, set<int> &neutral_bits);
-
 vector<unsigned> xor_vec(const vector<unsigned> &a, const vector<unsigned> &b);
 
 vector<unsigned> xor_vec(const vector<unsigned> &a, const vector<unsigned> &b, const vector<unsigned> &c);

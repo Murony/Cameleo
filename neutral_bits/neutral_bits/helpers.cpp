@@ -60,12 +60,8 @@ vector<unsigned> xor_vec(vector<unsigned> a, int b, int c, int d, int e, int f){
 
 void show_number(const vector<int> &v, ofstream &fout){
 	for (int i = 0; i < 5; i++){
-		if (v[i] != -1){
-			cout << v[i] << " ";
-		}
 		fout << v[i] << " ";
 	}
-	cout << endl;
 	fout << endl;
 }
 
@@ -97,15 +93,6 @@ void show_clique(const set<int> &clique, const vector<vector<int>> &new_neutral_
 		}
 	}
 	fout.close();
-}
-
-void generate_list(list<vector<unsigned>> &neutral_bits_set, set<int> &neutral_bits){
-	for (int i = 0; i < 512; i++){
-		vector<unsigned> neutral_bit_vec(16, 0);
-		neutral_bit_vec[i / 32] ^= 1 << (i % 32);
-		neutral_bits_set.push_back(neutral_bit_vec);
-		neutral_bits.insert(i);
-	}
 }
 
 void print_results(const message &m1, const message &m2, const message &start_m1, const message &start_m2, int r){

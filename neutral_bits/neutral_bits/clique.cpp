@@ -66,9 +66,6 @@ void extend(vector<vector<char>> &a, list<set<int>> &REZULT, set <int> candidate
 			}
 			if (M.size() >= CLIQUE_SIZE)
 				stop_flag = 1;
-			//if (M.size() >= 26)
-				//cout << " new size " << M.size() << " ";
-				//cout <<"here m size->"<< M.size() << " ";
 		}
 		else{
 			if ((REZULT.size() < 100000) && (!stop_flag)){
@@ -76,7 +73,6 @@ void extend(vector<vector<char>> &a, list<set<int>> &REZULT, set <int> candidate
 				extend(a, REZULT, K, P, M);
 			}
 			else{
-				//cout << "stop ";
 				break;
 			}
 		}
