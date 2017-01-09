@@ -1,9 +1,15 @@
 #include "set_constructor.h"
 
+void read(set<vector<int>> &neutral_vectors);
+
 void construct_neutral_set(const message &M1, const message &M2, const difference &D){
 	int r = 0;
-	ofstream pairs("pairs.txt");
 	set<vector<int>> bad_pairs;
+	read(bad_pairs);
+
+	cout << "bad set size: " << bad_pairs.size() << endl;
+
+	ofstream pairs("pairs.txt");
 	set<int> bad_set;
 	for (int v = 0; v < 512; v++){
 		message tmp_m1(M1.W);
@@ -49,7 +55,7 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	cout << "pairs time: " << time(NULL) - seconds << endl;
 	seconds = time(NULL);
 
-	//*
+	/*
 	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
 		message tmp_m1(M1.W);
@@ -82,7 +88,7 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	seconds = time(NULL);
 
 	//*
-	for (int v = 0; v < 512; v++){
+	for (int v = 308; v >= 0; v--){
 		if (bad_set.find(v) == bad_set.end()){
 			#pragma omp parallel for
 			for (int q = v + 1; q < 512; q++){
@@ -117,7 +123,6 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 				}
 			}
 		}
-		//cout << time(NULL) - t << " ";
 		cout << v << " ";
 	}
 
@@ -142,6 +147,30 @@ void read(vector<vector<int>> &neutral_vectors){
 	for (int v = 0; v < count; v++){
 		neutral_vectors.push_back(init);
 		ipairs >> neutral_vectors[v][0] >> neutral_vectors[v][1] >> neutral_vectors[v][2] >> neutral_vectors[v][3] >> neutral_vectors[v][4];
+	}
+	ipairs.close();
+}
+
+void read(set<vector<int>> &neutral_vectors){
+	ifstream ipairs("pairs.txt");
+	int count = -1;
+	string c;
+	while (!ipairs.eof())
+	{
+		getline(ipairs, c);
+		count++;
+	}
+	ipairs.close();
+	ipairs.open("pairs.txt");
+	int tmp, tmp2;
+	vector<int> init = { -1, -1, -1};
+	for (int v = 0; v < count; v++){
+		init = { -1, -1, -1 };
+		ipairs >> init[0] >> init[1] >> init[2] >> tmp >> tmp2;
+		if (tmp != -1){
+			init.push_back(tmp);
+		}
+		neutral_vectors.insert(init);
 	}
 	ipairs.close();
 }

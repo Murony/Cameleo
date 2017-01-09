@@ -59,7 +59,7 @@ void extend(vector<vector<char>> &a, list<set<int>> &REZULT, set <int> candidate
 			REZULT.push_back(M);
 			//if (REZULT.size()%100==0)
 			//	cout << M.size() << " ";
-			if (M.size() > max_size){
+			if (M.size() >= max_size){
 				max_size = M.size();
 				cout << M.size() << " ";
 				show_clique(M, nv, nv);

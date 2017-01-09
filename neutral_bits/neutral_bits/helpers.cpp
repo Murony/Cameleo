@@ -79,9 +79,13 @@ vector<int> convert_vector(const vector<unsigned> &v){
 	return neutral_set;
 }
 
+int global_count = 0;
+
 void show_clique(const set<int> &clique, const vector<vector<int>> &new_neutral_bits_set, vector<vector<int>> &final_set){
 	int w = 0;
-	ofstream fout("clique.txt");
+	char str[20];
+	_snprintf_s(str, 20, 20, "w_clique_%d_%d.txt", clique.size(), global_count++);
+	ofstream fout(str);
 	for (auto q = clique.begin(); q != clique.end(); q++){
 		w = 0;
 		for (auto t = new_neutral_bits_set.begin(); t != new_neutral_bits_set.end(); t++){
