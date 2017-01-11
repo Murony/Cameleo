@@ -109,3 +109,5 @@ void show_clique(const set<int> &clique, const vector<vector<int>> &new_neutral_
 vector<int> convert_vector(const vector<unsigned> &v);
 
 void print_results(const message &m1, const message &m2, const message &start_m1, const message &start_m2, int r);
+
+bool not_intersect(vector<int> a, vector<int> b);

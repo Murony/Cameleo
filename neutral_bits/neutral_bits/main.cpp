@@ -7,8 +7,8 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 	for (int i = 0; i < 40; i++)
 		power[pow(2, i)] = i;
 
-	long long min_power = pow(2, 31); //52835764832
-	long long max_power = pow(2, 32);
+	long long min_power = pow(2, 0); //52835764832
+	long long max_power = pow(2, 26);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -48,7 +48,7 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 			}
 		}
 		if (!trivial){
-			if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 58){
+			if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 50){
 				#pragma omp critical
 				{
 					cout << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl;

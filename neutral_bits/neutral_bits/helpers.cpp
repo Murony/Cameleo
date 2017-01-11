@@ -84,7 +84,7 @@ int global_count = 0;
 void show_clique(const set<int> &clique, const vector<vector<int>> &new_neutral_bits_set, vector<vector<int>> &final_set){
 	int w = 0;
 	char str[20];
-	_snprintf_s(str, 20, 20, "w_clique_%d_%d.txt", clique.size(), global_count++);
+	_snprintf_s(str, 20, 20, "w_clique_%d_%d.txt", clique.size(), global_count);
 	ofstream fout(str);
 	for (auto q = clique.begin(); q != clique.end(); q++){
 		w = 0;
@@ -128,4 +128,16 @@ void print_results(const message &m1, const message &m2, const message &start_m1
 	cout << endl << endl;
 	fout << endl << endl;
 	fout.close();
+}
+
+
+bool not_intersect(vector<int> a, vector<int> b){
+	for (auto i : a){
+		for (auto j : b){
+			if ((i == j) && (i != -1) && (j != -1)){
+				return 0;
+			}
+		}
+	}
+	return 1;
 }

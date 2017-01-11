@@ -137,20 +137,23 @@ void adj_matrix::fill(const vector<vector<int>> &v, const message &M1, const mes
 	int z = 0;
 	omp_set_num_threads(16);
 
-	#pragma omp parallel for
+#pragma omp parallel for
 	for (z = 0; z < v.size(); z++) {
 		message tmp_m1(M1.W);
 		message tmp_m2(M1.W);
 		for (int x = z; x < v.size(); x++) {
 			tmp_m1.modify(xor_vec(M1.W, v[z], v[x]), R);
 			tmp_m2.modify(xor_vec(M2.W, v[z], v[x]), R);
-			if (D.equal(tmp_m1, tmp_m2, R) == R){
+			if ((D.equal(tmp_m1, tmp_m2, R) == R) && (not_intersect(v[z], v[x]))){
 				adj[z][x] = 1;
 				adj[x][z] = 1;
 			}
+			if (x == z){
+				adj[z][x] = 1;
+			}
 		}
 		if ((z + 1) % 100 == 0)
-			cout << z+1 << " ";
+			cout << z + 1 << " ";
 	}
 }
 
