@@ -68,7 +68,7 @@ void extend(vector<vector<char>> &a, list<set<int>> &REZULT, set <int> candidate
 				stop_flag = 1;
 		}
 		else{
-			if ((REZULT.size() < 100000) && (!stop_flag)){
+			if ((REZULT.size() < CLIQUES_COUNT) && (!stop_flag)){
 			//if (!stop_flag){
 				extend(a, REZULT, K, P, M);
 			}

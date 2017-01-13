@@ -14,6 +14,7 @@
 #define MASK 0xffffffff
 #define R 21
 #define CLIQUE_SIZE 34
+#define CLIQUES_COUNT 5000
 
 using namespace std;
 

@@ -9,4 +9,4 @@ void read_clique(vector<vector<int>> &neutral_vectors);
 
 void constructor(const message &M1, const message &M2, const difference &D);
 
-void find_best_pair(const message &M1, const message &M2, const difference &D);
+void find_best_pair(message &M1, message &M2, const difference &D);

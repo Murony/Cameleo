@@ -74,8 +74,13 @@ void main(){
 	difference D(M1, M2);
 
 	//find_best_pair(M1, M2, D);
-
 	//return;
+
+	/*
+	xor(M1.W, { 427, -1, -1, -1, -1 });
+	xor(M2.W, { 427, -1, -1, -1, -1 });
+	D.modify(M1, M2);
+	*/
 
 	vector<vector<int>> final_set;
 

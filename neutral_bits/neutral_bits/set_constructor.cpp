@@ -55,7 +55,7 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	cout << "pairs time: " << time(NULL) - seconds << endl;
 	seconds = time(NULL);
 
-	//*
+	/*
 	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
 		message tmp_m1(M1.W);
@@ -92,7 +92,7 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 
 	seconds = time(NULL);
 
-	//*
+	/*
 	for (int v = 511; v >= 0; v--){
 		if (bad_set.find(v) == bad_set.end()){
 			#pragma omp parallel for
@@ -210,7 +210,7 @@ void constructor(const message &M1, const message &M2, const difference &D){
 	vector<vector<int>> neutral_vectors;
 	vector<vector<int>> final_set;
 
-	//construct_neutral_set(M1, M2, D);
+	construct_neutral_set(M1, M2, D);
 
 	read(neutral_vectors);
 
@@ -241,9 +241,10 @@ void constructor(const message &M1, const message &M2, const difference &D){
 	//test.show(final_set, M1, M2, D);
 }
 
-void find_best_pair(const message &M1, const message &M2, const difference &D){
-
+void find_best_pair(message &M1, message &M2, const difference &D){
+	ofstream changes("good_changes.txt");
 	vector<vector<int>> neutral_vectors;
+	vector<vector<int>> tmp_neutral_vectors;
 	vector<vector<int>> final_set;
 	//construct_neutral_set(M1, M2, D);
 
@@ -251,14 +252,38 @@ void find_best_pair(const message &M1, const message &M2, const difference &D){
 
 	cout << dec << endl << "new size " << neutral_vectors.size() << endl;
 
-	adj_matrix adj(neutral_vectors.size());
-
-	adj.fill(neutral_vectors, M1, M2, D);
+	message tmp1 = message(M1.W);
+	message tmp2 = message(M2.W);
 
 	set<int> clique;
-	kerbosh(adj.adj, adj.adj[1].size(), clique, neutral_vectors);
+	int max_clique_size = 15;
 
-	cout << endl << "clique size " << clique.size() << endl;
+	for (auto i = neutral_vectors.begin(); i != neutral_vectors.end(); i++){
+		tmp1.W = M1.W;
+		tmp2.W = M2.W;
+		xor(tmp1.W, *i);
+		xor(tmp2.W, *i);
+		cout << D.modify(tmp1, tmp2) << " ";
+		construct_neutral_set(tmp1, tmp2, D);
+		read(tmp_neutral_vectors);
+		cout << dec << endl << "new size " << tmp_neutral_vectors.size() << endl;
+		adj_matrix adj(tmp_neutral_vectors.size());
+		adj.fill(tmp_neutral_vectors, tmp1, tmp2, D);
+		kerbosh(adj.adj, adj.adj[1].size(), clique, tmp_neutral_vectors);
+		cout << endl << "clique size " << clique.size() << endl;
 
-	show_clique(clique, neutral_vectors, final_set);
+		if (clique.size() > max_clique_size){
+			changes << "clique size " << clique.size() << endl;
+			changes << (*i)[0] << " " << (*i)[1] << " " << (*i)[2] << " " << (*i)[3] << " " << (*i)[4] << endl << endl;
+		}
+
+		show_clique(clique, tmp_neutral_vectors, final_set);
+
+		tmp_neutral_vectors.clear();
+		clique.clear();
+	}
+
+	getchar();
+
+	return;
 }
