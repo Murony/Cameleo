@@ -8,7 +8,7 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 		power[pow(2, i)] = i;
 
 	long long min_power = pow(2, 0); //52835764832
-	long long max_power = pow(2, 26);
+	long long max_power = pow(2, 22);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -33,31 +33,18 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 			if ((i&j) != 0){
 				xor(tmp1[omp_get_thread_num()].W, final_set[k]);
 				xor(tmp2[omp_get_thread_num()].W, final_set[k]);
-				for (int q = 0; q < 4; q++){
-					if (final_set[k][q]!=-1)
-						parity[omp_get_thread_num()][final_set[k][q]] ^= 1;
-				}
 			}
 			k++;
 		}
-		bool trivial = 1;
-		for (int q = 0; q < 512; q++){
-			if (parity[omp_get_thread_num()][q] != 0){
-				trivial = 0;
-				parity[omp_get_thread_num()][q] = 0;
-			}
-		}
-		if (!trivial){
-			if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 50){
+		if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 50){
 				#pragma omp critical
 				{
 					cout << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl;
 					found_i << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl;
 				}
-				//print_results(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2, D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]));
+			//print_results(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2, D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]));
 			//D.print(80);
 			//D.print(tmp1[omp_get_thread_num()], M1, 16);
-			}
 		}
 	}
 	cout << endl << "Brute Force done: ";
@@ -71,12 +58,12 @@ void main(){
 	vector<unsigned int> W1(80, 0);
 	vector<unsigned int> W2(80, 0);
 
-	fopen_s(&f, "m1_try.txt", "r");
+	fopen_s(&f, "m1_16.txt", "r");
 	for (int i = 0; i < 16; i++){
 		fscanf_s(f, "%x ", &W1[i]);
 	}
 	fclose(f);
-	fopen_s(&f, "m2_try.txt", "r");
+	fopen_s(&f, "m2_16.txt", "r");
 	for (int i = 0; i < 16; i++){
 		fscanf_s(f, "%x ", &W2[i]);
 	}
@@ -86,23 +73,9 @@ void main(){
 	message M2(W2);
 	difference D(M1, M2);
 
-	
-	/*message tmp_m1(M1.W);
-	message tmp_m2(M2.W);
-	tmp_m1.modify(xor_vec(M1.W, 456, 493, -1, -1, -1), R);
-	tmp_m2.modify(xor_vec(M2.W, 456, 493, -1, -1, -1), R);
-	D.print(tmp_m1, tmp_m2, R);
-	cout << dec << D.equal(tmp_m1, tmp_m2, R);*/
+	//find_best_pair(M1, M2, D);
 
-	/*
-	vector<int> v1 = { 456, 493, -1, -1, -1 };
-	vector<int> v2 = { 388, -1, -1, -1, -1 };
-	vector<int> v3 = { -1, -1, -1, -1, -1 };
-	D.print(M1, M2, R);
-	//D.print(message(xor_vec(M1.W, v1, v2)), message(xor_vec(M2.W,v1,v2)), R);
-	//D.print(message(xor_vec(M1.W, v1, v3)), message(xor_vec(M2.W, v1, v3)), R);
-	getchar();
-	return;//*/
+	//return;
 
 	vector<vector<int>> final_set;
 
@@ -125,3 +98,19 @@ void main(){
 
 
 
+/*message tmp_m1(M1.W);
+message tmp_m2(M2.W);
+tmp_m1.modify(xor_vec(M1.W, 456, 493, -1, -1, -1), R);
+tmp_m2.modify(xor_vec(M2.W, 456, 493, -1, -1, -1), R);
+D.print(tmp_m1, tmp_m2, R);
+cout << dec << D.equal(tmp_m1, tmp_m2, R);*/
+
+/*
+vector<int> v1 = { 456, 493, -1, -1, -1 };
+vector<int> v2 = { 388, -1, -1, -1, -1 };
+vector<int> v3 = { -1, -1, -1, -1, -1 };
+D.print(M1, M2, R);
+//D.print(message(xor_vec(M1.W, v1, v2)), message(xor_vec(M2.W,v1,v2)), R);
+//D.print(message(xor_vec(M1.W, v1, v3)), message(xor_vec(M2.W, v1, v3)), R);
+getchar();
+return;//*/

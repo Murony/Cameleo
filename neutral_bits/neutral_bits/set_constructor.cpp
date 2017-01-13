@@ -5,7 +5,7 @@ void read(set<vector<int>> &neutral_vectors);
 void construct_neutral_set(const message &M1, const message &M2, const difference &D){
 	int r = 0;
 	set<vector<int>> bad_pairs;
-	read(bad_pairs);
+	//read(bad_pairs);
 
 	cout << "bad set size: " << bad_pairs.size() << endl;
 
@@ -55,7 +55,7 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	cout << "pairs time: " << time(NULL) - seconds << endl;
 	seconds = time(NULL);
 
-	/*
+	//*
 	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
 		message tmp_m1(M1.W);
@@ -63,9 +63,14 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 		time_t t = time(NULL);
 		if (bad_set.find(v) == bad_set.end()){
 			for (int q = v + 1; q < 512; q++){
-				if ((bad_set.find(q) == bad_set.end()) && (bad_pairs.find({ v, q }) == bad_pairs.end())){
+				if ((bad_set.find(q) == bad_set.end()) 
+					&& (bad_pairs.find({ v, q }) == bad_pairs.end())
+					){
 					for (int w = q + 1; w < 512; w++){
-						if ((bad_set.find(w) == bad_set.end()) && (bad_pairs.find({ v, w }) == bad_pairs.end()) && (bad_pairs.find({ q, w }) == bad_pairs.end())){
+						if ((bad_set.find(w) == bad_set.end()) 
+							&& (bad_pairs.find({ v, w }) == bad_pairs.end()) 
+							&& (bad_pairs.find({ q, w }) == bad_pairs.end())
+							){
 							tmp_m1.modify(xor_vec(M1.W, v, q, w, -1, -1), R);
 							tmp_m2.modify(xor_vec(M2.W, v, q, w, -1, -1), R);
 							if (D.equal(tmp_m1, tmp_m2, R) == R){
@@ -88,18 +93,21 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	seconds = time(NULL);
 
 	//*
-	for (int v = 308; v >= 0; v--){
+	for (int v = 511; v >= 0; v--){
 		if (bad_set.find(v) == bad_set.end()){
 			#pragma omp parallel for
 			for (int q = v + 1; q < 512; q++){
 				message tmp_m1(M1.W);
 				message tmp_m2(M2.W);
-				if ((bad_set.find(q) == bad_set.end()) && (bad_pairs.find({ v, q }) == bad_pairs.end())){
+				if ((bad_set.find(q) == bad_set.end()) 
+					&& (bad_pairs.find({ v, q }) == bad_pairs.end())
+					){
 					for (int w = q + 1; w < 512; w++){
 						if ((bad_set.find(w) == bad_set.end()) 
 									&& (bad_pairs.find({ v, w }) == bad_pairs.end()) 
 									&& (bad_pairs.find({ q, w }) == bad_pairs.end()) 
-									&& (bad_pairs.find({ v, q, w }) == bad_pairs.end())){
+									&& (bad_pairs.find({ v, q, w }) == bad_pairs.end())
+									){
 							for (int y = w + 1; y != 512; y++){
 								if ((bad_set.find(y) == bad_set.end()) 
 											&& (bad_pairs.find({ v, y }) == bad_pairs.end()) 
@@ -107,7 +115,8 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 											&& (bad_pairs.find({ w, y }) == bad_pairs.end()) 
 											&& (bad_pairs.find({ v, q, y }) == bad_pairs.end())
 											&& (bad_pairs.find({ v, w, y }) == bad_pairs.end())
-											&& (bad_pairs.find({ q, w, y }) == bad_pairs.end())){
+											&& (bad_pairs.find({ q, w, y }) == bad_pairs.end())
+											){
 									tmp_m1.modify(xor_vec(M1.W, v, q, w, y, -1), R);
 									tmp_m2.modify(xor_vec(M2.W, v, q, w, y, -1), R);
 									if (D.equal(tmp_m1, tmp_m2, R) == R){
@@ -230,4 +239,26 @@ void constructor(const message &M1, const message &M2, const difference &D){
 
 	//adj_matrix test(final_set.size());
 	//test.show(final_set, M1, M2, D);
+}
+
+void find_best_pair(const message &M1, const message &M2, const difference &D){
+
+	vector<vector<int>> neutral_vectors;
+	vector<vector<int>> final_set;
+	//construct_neutral_set(M1, M2, D);
+
+	read(neutral_vectors);
+
+	cout << dec << endl << "new size " << neutral_vectors.size() << endl;
+
+	adj_matrix adj(neutral_vectors.size());
+
+	adj.fill(neutral_vectors, M1, M2, D);
+
+	set<int> clique;
+	kerbosh(adj.adj, adj.adj[1].size(), clique, neutral_vectors);
+
+	cout << endl << "clique size " << clique.size() << endl;
+
+	show_clique(clique, neutral_vectors, final_set);
 }

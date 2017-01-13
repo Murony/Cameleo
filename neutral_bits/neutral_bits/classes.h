@@ -12,7 +12,7 @@
 #include <string>
 
 #define MASK 0xffffffff
-#define R 22
+#define R 21
 #define CLIQUE_SIZE 34
 
 using namespace std;
