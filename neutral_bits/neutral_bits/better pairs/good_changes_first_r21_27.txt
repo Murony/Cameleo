@@ -1,0 +1,63 @@
+clique size 20
+357 -1 -1 -1 -1
+
+clique size 21
+388 -1 -1 -1 -1
+
+clique size 18
+394 -1 -1 -1 -1
+
+clique size 19
+402 -1 -1 -1 -1
+
+clique size 22
+425 -1 -1 -1 -1
+
+clique size 27
+427 -1 -1 -1 -1
+
+clique size 24
+430 -1 -1 -1 -1
+
+clique size 17
+438 -1 -1 -1 -1
+
+clique size 23
+452 -1 -1 -1 -1
+
+clique size 23
+453 -1 -1 -1 -1
+
+clique size 18
+455 -1 -1 -1 -1
+
+clique size 23
+457 -1 -1 -1 -1
+
+clique size 20
+458 -1 -1 -1 -1
+
+clique size 21
+459 -1 -1 -1 -1
+
+clique size 18
+464 -1 -1 -1 -1
+
+clique size 20
+467 -1 -1 -1 -1
+
+clique size 21
+480 -1 -1 -1 -1
+
+clique size 24
+484 -1 -1 -1 -1
+
+clique size 22
+487 -1 -1 -1 -1
+
+clique size 24
+489 -1 -1 -1 -1
+
+clique size 23
+490 -1 -1 -1 -1
+

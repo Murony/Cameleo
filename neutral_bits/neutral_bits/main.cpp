@@ -8,7 +8,7 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 		power[pow(2, i)] = i;
 
 	long long min_power = pow(2, 0); //52835764832
-	long long max_power = pow(2, 22);
+	long long max_power = pow(2, 31);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -36,7 +36,7 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 			}
 			k++;
 		}
-		if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 50){
+		if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 57){
 				#pragma omp critical
 				{
 					cout << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl;
@@ -58,12 +58,12 @@ void main(){
 	vector<unsigned int> W1(80, 0);
 	vector<unsigned int> W2(80, 0);
 
-	fopen_s(&f, "m1_16.txt", "r");
+	fopen_s(&f, "m1_try.txt", "r");
 	for (int i = 0; i < 16; i++){
 		fscanf_s(f, "%x ", &W1[i]);
 	}
 	fclose(f);
-	fopen_s(&f, "m2_16.txt", "r");
+	fopen_s(&f, "m2_try.txt", "r");
 	for (int i = 0; i < 16; i++){
 		fscanf_s(f, "%x ", &W2[i]);
 	}
@@ -73,18 +73,20 @@ void main(){
 	message M2(W2);
 	difference D(M1, M2);
 
-	//find_best_pair(M1, M2, D);
-	//return;
-
-	/*
-	xor(M1.W, { 427, -1, -1, -1, -1 });
-	xor(M2.W, { 427, -1, -1, -1, -1 });
-	D.modify(M1, M2);
-	*/
+	//*
+	find_best_pair(M1, M2, D);
+	return;
+	//*/
+	
+	//*
+	xor(M1.W, { 490, -1, -1, -1, -1 });
+	xor(M2.W, { 490, -1, -1, -1, -1 });
+	cout << "rounds: " << D.modify(M1, M2) << endl;
+	//*/
 
 	vector<vector<int>> final_set;
 
-	int just_read_from_file = 0;
+	int just_read_from_file = 1;
 	if (just_read_from_file){
 		read_clique(final_set);
 		cout << "final set size:" << final_set.size() << endl;

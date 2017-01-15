@@ -1,0 +1,183 @@
+clique size 17
+388 -1 -1 -1 -1
+
+clique size 16
+416 -1 -1 -1 -1
+
+clique size 16
+430 -1 -1 -1 -1
+
+clique size 17
+457 -1 -1 -1 -1
+
+clique size 21
+458 -1 -1 -1 -1
+
+clique size 17
+459 -1 -1 -1 -1
+
+clique size 18
+464 -1 -1 -1 -1
+
+clique size 16
+467 -1 -1 -1 -1
+
+clique size 17
+480 -1 -1 -1 -1
+
+clique size 16
+484 -1 -1 -1 -1
+
+clique size 16
+485 -1 -1 -1 -1
+
+clique size 16
+489 -1 -1 -1 -1
+
+clique size 19
+490 -1 -1 -1 -1
+
+clique size 18
+491 -1 -1 -1 -1
+
+clique size 16
+492 -1 -1 -1 -1
+
+clique size 16
+494 -1 -1 -1 -1
+
+clique size 19
+496 -1 -1 -1 -1
+
+clique size 17
+499 -1 -1 -1 -1
+
+clique size 17
+487 488 -1 -1 -1
+
+clique size 17
+493 501 -1 -1 -1
+
+clique size 16
+493 507 -1 -1 -1
+
+clique size 17
+493 509 -1 -1 -1
+
+clique size 16
+448 487 -1 -1 -1
+
+clique size 17
+359 396 -1 -1 -1
+
+clique size 16
+456 493 -1 -1 -1
+
+clique size 17
+456 501 -1 -1 -1
+
+clique size 16
+456 507 -1 -1 -1
+
+clique size 17
+456 509 -1 -1 -1
+
+clique size 16
+461 470 -1 -1 -1
+
+clique size 18
+461 498 -1 -1 -1
+
+clique size 19
+462 463 -1 -1 -1
+
+clique size 16
+462 500 -1 -1 -1
+
+clique size 18
+463 500 -1 -1 -1
+
+clique size 18
+327 403 -1 -1 -1
+
+clique size 17
+360 487 -1 -1 -1
+
+clique size 17
+465 487 -1 -1 -1
+
+clique size 16
+360 504 -1 -1 -1
+
+clique size 18
+465 502 -1 -1 -1
+
+clique size 17
+328 364 -1 -1 -1
+
+clique size 20
+421 425 -1 -1 -1
+
+clique size 18
+421 426 -1 -1 -1
+
+clique size 16
+363 437 -1 -1 -1
+
+clique size 20
+421 462 -1 -1 -1
+
+clique size 20
+421 463 -1 -1 -1
+
+clique size 17
+364 428 -1 -1 -1
+
+clique size 16
+364 432 -1 -1 -1
+
+clique size 17
+364 487 -1 -1 -1
+
+clique size 16
+364 502 -1 -1 -1
+
+clique size 16
+424 461 -1 -1 -1
+
+clique size 18
+425 426 -1 -1 -1
+
+clique size 21
+425 463 -1 -1 -1
+
+clique size 17
+425 500 -1 -1 -1
+
+clique size 19
+426 462 -1 -1 -1
+
+clique size 17
+426 463 -1 -1 -1
+
+clique size 21
+426 500 -1 -1 -1
+
+clique size 17
+394 431 -1 -1 -1
+
+clique size 16
+394 468 -1 -1 -1
+
+clique size 18
+395 396 -1 -1 -1
+
+clique size 18
+429 475 -1 -1 -1
+
+clique size 16
+429 502 -1 -1 -1
+
+clique size 16
+431 468 -1 -1 -1
+

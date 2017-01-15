@@ -12,9 +12,9 @@
 #include <string>
 
 #define MASK 0xffffffff
-#define R 21
+#define R 22
 #define CLIQUE_SIZE 34
-#define CLIQUES_COUNT 5000
+#define CLIQUES_COUNT 10000
 
 using namespace std;
 

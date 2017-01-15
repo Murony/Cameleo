@@ -7,7 +7,7 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	set<vector<int>> bad_pairs;
 	//read(bad_pairs);
 
-	cout << "bad set size: " << bad_pairs.size() << endl;
+	//cout << "bad set size: " << bad_pairs.size() << endl;
 
 	ofstream pairs("pairs.txt");
 	set<int> bad_set;
@@ -43,7 +43,7 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 						#pragma omp critical
 						{
 							pairs << v << " " << q << " -1 -1 -1" <<endl;
-							bad_pairs.insert(vector<int>{v,q});
+							//bad_pairs.insert(vector<int>{v,q});
 						}
 					}
 				}
@@ -52,10 +52,10 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	}
 	//*/
 
-	cout << "pairs time: " << time(NULL) - seconds << endl;
+	//cout << "pairs time: " << time(NULL) - seconds << endl;
 	seconds = time(NULL);
 
-	/*
+	//*
 	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
 		message tmp_m1(M1.W);
@@ -64,12 +64,12 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 		if (bad_set.find(v) == bad_set.end()){
 			for (int q = v + 1; q < 512; q++){
 				if ((bad_set.find(q) == bad_set.end()) 
-					&& (bad_pairs.find({ v, q }) == bad_pairs.end())
+					//&& (bad_pairs.find({ v, q }) == bad_pairs.end())
 					){
 					for (int w = q + 1; w < 512; w++){
 						if ((bad_set.find(w) == bad_set.end()) 
-							&& (bad_pairs.find({ v, w }) == bad_pairs.end()) 
-							&& (bad_pairs.find({ q, w }) == bad_pairs.end())
+							//&& (bad_pairs.find({ v, w }) == bad_pairs.end()) 
+							//&& (bad_pairs.find({ q, w }) == bad_pairs.end())
 							){
 							tmp_m1.modify(xor_vec(M1.W, v, q, w, -1, -1), R);
 							tmp_m2.modify(xor_vec(M2.W, v, q, w, -1, -1), R);
@@ -77,7 +77,7 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 								#pragma omp critical
 								{
 									pairs << v << " " << q << " " << w << " -1 -1" << endl;
-									bad_pairs.insert(vector<int>{v, q, w});
+									//bad_pairs.insert(vector<int>{v, q, w});
 								}
 							}
 						}
@@ -210,7 +210,7 @@ void constructor(const message &M1, const message &M2, const difference &D){
 	vector<vector<int>> neutral_vectors;
 	vector<vector<int>> final_set;
 
-	construct_neutral_set(M1, M2, D);
+	//construct_neutral_set(M1, M2, D);
 
 	read(neutral_vectors);
 
@@ -259,14 +259,14 @@ void find_best_pair(message &M1, message &M2, const difference &D){
 	int max_clique_size = 15;
 
 	for (auto i = neutral_vectors.begin(); i != neutral_vectors.end(); i++){
+		cout << endl << (*i)[0] << " " << (*i)[1] << " " << (*i)[2] << " " << (*i)[3] << " " << (*i)[4] << endl;
 		tmp1.W = M1.W;
 		tmp2.W = M2.W;
 		xor(tmp1.W, *i);
 		xor(tmp2.W, *i);
-		cout << D.modify(tmp1, tmp2) << " ";
+		cout << D.modify(tmp1, tmp2) << endl;
 		construct_neutral_set(tmp1, tmp2, D);
 		read(tmp_neutral_vectors);
-		cout << dec << endl << "new size " << tmp_neutral_vectors.size() << endl;
 		adj_matrix adj(tmp_neutral_vectors.size());
 		adj.fill(tmp_neutral_vectors, tmp1, tmp2, D);
 		kerbosh(adj.adj, adj.adj[1].size(), clique, tmp_neutral_vectors);
@@ -275,9 +275,10 @@ void find_best_pair(message &M1, message &M2, const difference &D){
 		if (clique.size() > max_clique_size){
 			changes << "clique size " << clique.size() << endl;
 			changes << (*i)[0] << " " << (*i)[1] << " " << (*i)[2] << " " << (*i)[3] << " " << (*i)[4] << endl << endl;
-		}
+			max_clique_size = clique.size();
 
-		show_clique(clique, tmp_neutral_vectors, final_set);
+			show_clique(clique, tmp_neutral_vectors, final_set);
+		}
 
 		tmp_neutral_vectors.clear();
 		clique.clear();
