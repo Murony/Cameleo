@@ -1,0 +1,18 @@
+
+
+First found message:
+
+310eeb32 ac418fc2 415d5a54 6ffa5aa9 5ee5a5f5 7621f42d 8ae2f4ca f7acf74b b144b4e1 5164df45 c61ad50c d5833e99 6f0ab7a9 a64687c5 4c4bb3d8 a60298ac 
+
+Second found message:
+
+310eeb32 ac418fc2 415d5a54 6ffa5aab 5ee5a5b5 7621f42f ae2f4ca 77acf74b 3144b4e3 5164df05 c61ad50c 55833ed9 ef0ab7ab a64687c7 cc4bb398 260298ae 
+
+Mask:
+
+0 0 0 0 0 0 0 0 0 0 0 800 10420 10000500 1089021 200a1e38 10000500 
+
+Difference 59 steps:
+
+0 0 0 0 2 0 0 0 0 2 0 2 0 0 2 0 0 0 2 2 2 2 0 0 2 0 2 2 0 0 0 0 0 2 2 2 0 0 0 0 0 0 0 0 0 0 0 2 2 0 0 0 0 0 0 2 2 0 2 2 
+
