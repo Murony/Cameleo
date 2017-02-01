@@ -115,7 +115,7 @@ void print_results(const message &m1, const message &m2, const message &start_m1
 	}
 	cout << endl << endl << "Mask:" << endl << endl;
 	fout << endl << endl << "Mask:" << endl << endl;
-	for (int i = 0; i <= 16; i++){
+	for (int i = 0; i < 16; i++){
 		cout << hex << (m1.W[i] ^ start_m1.W[i]) << " ";
 		fout << hex << (m1.W[i] ^ start_m1.W[i]) << " ";
 	}
@@ -127,6 +127,14 @@ void print_results(const message &m1, const message &m2, const message &start_m1
 	}
 	cout << endl << endl;
 	fout << endl << endl;
+	fout.close();
+}
+
+void print_results_full(const message &m1, const message &m2, const message &start_m1, const message &start_m2){
+	ofstream fout("results.txt");
+	for (int i = 0; i < 80; i++){
+		fout <<dec<< "t=" << i << " & " << hex << m1.W[i] << " & " << m2.W[i] << " & " << (m1.a[i+1] ^ m2.a[i+1]) << " \\\\ \\hline" <<endl;
+	}
 	fout.close();
 }
 

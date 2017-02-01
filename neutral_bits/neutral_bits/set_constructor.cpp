@@ -210,7 +210,7 @@ void constructor(const message &M1, const message &M2, const difference &D){
 	vector<vector<int>> neutral_vectors;
 	vector<vector<int>> final_set;
 
-	//construct_neutral_set(M1, M2, D);
+	construct_neutral_set(M1, M2, D);
 
 	read(neutral_vectors);
 

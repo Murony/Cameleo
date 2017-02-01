@@ -82,6 +82,7 @@ public:
 	void print(const message& m1, const message& m2, int r)const;
 	void print(int r)const;
 	int modify(message& m1, message& m2)const;
+	int modify_full(message& m1, message& m2)const;
 };
 
 int check(vector<vector<char>> &a, set <int> &K, set <int> &P);
@@ -112,3 +113,6 @@ vector<int> convert_vector(const vector<unsigned> &v);
 void print_results(const message &m1, const message &m2, const message &start_m1, const message &start_m2, int r);
 
 bool not_intersect(vector<int> a, vector<int> b);
+
+void print_results_full(const message &m1, const message &m2, const message &start_m1, const message &start_m2);
+

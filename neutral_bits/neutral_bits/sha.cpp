@@ -163,6 +163,39 @@ int difference::modify(message& m1, message& m2)const{
 	return 65;
 }
 
+int difference::modify_full(message& m1, message& m2)const{
+	unsigned f;
+	int k = 0;
+	for (int i = 0; i < 80; i++){
+		if ((m1.a[i] ^ m2.a[i]) != dif[i])
+			k = i - 1;
+
+		if (i>15){
+			m1.W[i] = (m1.W[i - 3] ^ m1.W[i - 8] ^ m1.W[i - 14] ^ m1.W[i - 16]);
+			if (sha1)
+				m1.W[i] = ((m1.W[i] << 1) | (m1.W[i] >> (32 - 1)))&MASK;
+			m2.W[i] = (m2.W[i - 3] ^ m2.W[i - 8] ^ m2.W[i - 14] ^ m2.W[i - 16]);
+			if (sha1)
+				m2.W[i] = ((m2.W[i] << 1) | (m2.W[i] >> (32 - 1)))&MASK;
+		}
+
+		f = round_function(m1.b[i], m1.c[i], m1.d[i], i);
+		m1.a[i + 1] = (m1.e[i] + ((m1.a[i] << 5) | (m1.a[i] >> (32 - 5))) + f + m1.W[i] + key(i))&MASK;
+		m1.b[i + 1] = m1.a[i];
+		m1.c[i + 1] = ((m1.b[i] << 30) | (m1.b[i] >> 2))&MASK;
+		m1.d[i + 1] = m1.c[i];
+		m1.e[i + 1] = m1.d[i];
+
+		f = round_function(m2.b[i], m2.c[i], m2.d[i], i);
+		m2.a[i + 1] = (m2.e[i] + ((m2.a[i] << 5) | (m2.a[i] >> (32 - 5))) + f + m2.W[i] + key(i))&MASK;
+		m2.b[i + 1] = m2.a[i];
+		m2.c[i + 1] = ((m2.b[i] << 30) | (m2.b[i] >> 2))&MASK;
+		m2.d[i + 1] = m2.c[i];
+		m2.e[i + 1] = m2.d[i];
+	}
+	return k;
+}
+
 difference::difference(const message &m1, const message &m2){
 	dif = vector<unsigned>(81, 0);
 	/*for (int i = 0; i <= 30; i++){

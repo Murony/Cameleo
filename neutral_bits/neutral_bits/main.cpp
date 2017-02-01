@@ -7,8 +7,8 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 	for (int i = 0; i < 40; i++)
 		power[pow(2, i)] = i;
 
-	long long min_power = pow(2, 0); //52835764832
-	long long max_power = pow(2, 31);
+	long long min_power = 1888670128;// 52835723872;// 1888670128;// pow(2, 0); //52835764832
+	long long max_power = 1888670128 + 1;// 52835723872 + 1;// 1888670128 + 1; //pow(2, 31);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -36,13 +36,14 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 			}
 			k++;
 		}
-		if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 57){
+		if (D.modify_full(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 57){
 				#pragma omp critical
 				{
 					cout << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl;
 					found_i << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl;
 				}
 			//print_results(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2, D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]));
+			print_results_full(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2);
 			//D.print(80);
 			//D.print(tmp1[omp_get_thread_num()], M1, 16);
 		}
@@ -73,14 +74,14 @@ void main(){
 	message M2(W2);
 	difference D(M1, M2);
 
-	//*
+	/*
 	find_best_pair(M1, M2, D);
 	return;
 	//*/
 	
 	//*
-	xor(M1.W, { 490, -1, -1, -1, -1 });
-	xor(M2.W, { 490, -1, -1, -1, -1 });
+	xor(M1.W, { 490, 480, -1, -1, -1 });
+	xor(M2.W, { 490, 480, -1, -1, -1 });
 	cout << "rounds: " << D.modify(M1, M2) << endl;
 	//*/
 
