@@ -1,14 +1,14 @@
 #include "set_constructor.h"
 
-void brute_force(const vector<vector<int>> &final_set, const message &M1, const message &M2, const difference &D){
+void brute_force(const vector<vector<int>> &final_set, const message &M1, const message &M2, const difference &D, const DifferentialPath &P){
 	ofstream found_i("found_i.txt");
 	
 	map<unsigned, unsigned> power;
 	for (int i = 0; i < 40; i++)
 		power[pow(2, i)] = i;
 
-	long long min_power = 12608136;// pow(2, 0);
-	long long max_power = 12608136 + 1;// pow(2, 25);
+	long long min_power = pow(2, 0);
+	long long max_power = pow(2, 29);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -36,22 +36,26 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 			}
 			k++;
 		}
-		if (D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 39){
+		D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]);
+		if (P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 23){
 				#pragma omp critical
 				{
-					cout << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl;
-					found_i << "i=" << dec << i << " " << D.equal(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], 80) << endl;
+					cout << "i=" << dec << i << " " << P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) << endl;
+					found_i << "i=" << dec << i << " " << P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) << endl;
 				}
 			//print_results(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2, D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]));
 			//print_results_full(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2);
-			print_results_two_blocks(M1, M2);
+			//print_results_two_blocks(M1, M2);
 			//D.print(80);
 			//D.print(tmp1[omp_get_thread_num()], M1, 16);
-			cout << (M1.a[0] + M1.a[40]) << " " << (M2.a[0] + M2.a[40]) << endl;
+
+			//print_results(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2, 35);
+
+			/*cout << (M1.a[0] + M1.a[40]) << " " << (M2.a[0] + M2.a[40]) << endl;
 			cout << (M1.b[0] + M1.b[40]) << " " << (M2.b[0] + M2.b[40]) << endl;
 			cout << (M1.c[0] + M1.c[40]) << " " << (M2.c[0] + M2.c[40]) << endl;
 			cout << (M1.d[0] + M1.d[40]) << " " << (M2.d[0] + M2.d[40]) << endl;
-			cout << (M1.e[0] + M1.e[40]) << " " << (M2.e[0] + M2.e[40]) << endl;
+			cout << (M1.e[0] + M1.e[40]) << " " << (M2.e[0] + M2.e[40]) << endl;*/
 		}
 	}
 	cout << endl << "Brute Force done: ";
@@ -65,55 +69,40 @@ void main(){
 	vector<unsigned int> W1(80, 0);
 	vector<unsigned int> W2(80, 0);
 
-	fopen_s(&f, "m1_40_block1.txt", "r");
+	fopen_s(&f, "m1_58.txt", "r");
 	for (int i = 0; i < 16; i++){
 		fscanf_s(f, "%x ", &W1[i]);
 	}
 	fclose(f);
-	fopen_s(&f, "m2_40_block1.txt", "r");
+	fopen_s(&f, "m2_58.txt", "r");
 	for (int i = 0; i < 16; i++){
 		fscanf_s(f, "%x ", &W2[i]);
 	}
 	fclose(f);
+
+	//*
+	xor(W1, { 458, 461, 465, 466, 475 });
+	xor(W2, { 458, 461, 465, 466, 475 });
+	//*/
 
 	message M1(W1);
 	message M2(W2);
 	difference D(M1, M2);
 
-	D.print(M1, M2, 40);
+	//D.print(M1, M2, 58);
+	//print_results(M1,M2, M1, M2, 16);
+
+	DifferentialPath P(M1, M2);
+	cout << P.check(M1, M2) <<endl;
 
 	//print_results_two_blocks(M1,M2);
+
+	//*
+	//constructor(M1, M2, D, P);
+	//find_best_pair(M1, M2, D, P);
+
+	//cout << "===DONE===" << endl;
 	//return;
-
-	fopen_s(&f, "m1_40_block2.txt", "r");
-	for (int i = 0; i < 16; i++){
-		fscanf_s(f, "%x ", &W1[i]);
-	}
-	fclose(f);
-	fopen_s(&f, "m2_40_block2.txt", "r");
-	for (int i = 0; i < 16; i++){
-		fscanf_s(f, "%x ", &W2[i]);
-	}
-	fclose(f);
-
-	M1.SetIV(40);
-	M1.modify(W1, 40);
-
-	M2.SetIV(40);
-	M2.modify(W2, 40);
-
-	D.print(M1, M2, 40);
-	D.print(40);
-
-	/*
-	find_best_pair(M1, M2, D);
-	return;
-	//*/
-	
-	/*
-	xor(M1.W, { 490, 480, -1, -1, -1 });
-	xor(M2.W, { 490, 480, -1, -1, -1 });
-	cout << "rounds: " << D.modify(M1, M2) << endl;
 	//*/
 
 	vector<vector<int>> final_set;
@@ -125,12 +114,12 @@ void main(){
 
 		seconds = time(NULL);
 
-		brute_force(final_set, M1, M2, D);
+		brute_force(final_set, M1, M2, D, P);
 
 		cout << dec << time(NULL) - seconds << endl;
 	}
 	else{
-		constructor(M1,M2,D);
+		constructor(M1,M2,D,P);
 	}
 
 	getchar();
@@ -154,3 +143,27 @@ D.print(M1, M2, R);
 //D.print(message(xor_vec(M1.W, v1, v3)), message(xor_vec(M2.W, v1, v3)), R);
 getchar();
 return;//*/
+
+
+/*
+fopen_s(&f, "m1_40_block2.txt", "r");
+for (int i = 0; i < 16; i++){
+fscanf_s(f, "%x ", &W1[i]);
+}
+fclose(f);
+fopen_s(&f, "m2_40_block2.txt", "r");
+for (int i = 0; i < 16; i++){
+fscanf_s(f, "%x ", &W2[i]);
+}
+fclose(f);
+
+M1.SetIV(40);
+M1.modify(W1, 40);
+
+M2.SetIV(40);
+M2.modify(W2, 40);
+
+D.print(M1, M2, 40);
+D.print(40);
+
+*/

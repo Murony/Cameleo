@@ -1,0 +1,15 @@
+$A_0$ & 2b0283ff & 2b0283ff & 0 \\ \hline
+$B_0$ & 1e8dd54e & 5e8dd54e & 0 \\ \hline
+$C_0$ & deb06917 & feb06917 & 0 \\ \hline
+$D_0$ & e978c73e & e978c73e & 0 \\ \hline
+$E_0$ & 19ae1eeb & 19ae1eeb & 0 \\ \hline
+$A_{40}$ & cdc11fb0 & cdc11fb0 & 0 \\ \hline
+$B_{40}$ & 74f8e8e3 & 34f8e8e3 & 40000000 \\ \hline
+$C_{40}$ & 648a558c & 448a558c & 20000000 \\ \hline
+$D_{40}$ & fbcdb4c7 & fbcdb4c7 & 0 \\ \hline
+$E_{40}$ & f229d01d & f229d01d & 0 \\ \hline
+$A_0 + A_{40}$ & f8c3a3af & f8c3a3af & 0 \\ \hline
+$B_0 + B_{40}$ & 9386be31 & 9386be31 & 0 \\ \hline
+$C_0 + C_{40}$ & 433abea3 & 433abea3 & 0 \\ \hline
+$D_0 + D_{40}$ & e5467c05 & e5467c05 & 0 \\ \hline
+$E_0 + E_{40}$ & bd7ef08 & bd7ef08 & 0 \\ \hline

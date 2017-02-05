@@ -12,9 +12,9 @@
 #include <string>
 
 #define MASK 0xffffffff
-#define R 22
-#define CLIQUE_SIZE 25
-#define CLIQUES_COUNT 10000
+#define R 21
+#define CLIQUE_SIZE 35
+#define CLIQUES_COUNT 5000
 #define STEP 40
 
 using namespace std;
@@ -94,6 +94,14 @@ void extend(vector<vector<char>> &a, list<set<int>> &REZULT, set <int> candidate
 
 void kerbosh(vector<vector<char>> &a, int SIZE, set<int> &clique, vector<vector<int>> &neutral_vectors);
 
+
+class DifferentialPath{
+	vector<vector<int>> path;
+public:
+	DifferentialPath(const message &m1, const message &m2);
+	int check(const message &m1, const message &m2)const;
+};
+
 class adj_matrix{
 public:
 	vector<vector<char>> adj;
@@ -104,7 +112,7 @@ public:
 		}
 	}
 	void show(const list<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D);
-	void fill(const vector<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D);
+	void fill(const vector<vector<int>> &new_neutral_bits_set, const message &M1, const message &M2, const difference &D, const DifferentialPath &P);
 	void edges();
 };
 
@@ -119,4 +127,7 @@ bool not_intersect(vector<int> a, vector<int> b);
 void print_results_full(const message &m1, const message &m2, const message &start_m1, const message &start_m2);
 
 void print_results_two_blocks(const message &m1, const message &m2);
+
+void check_differential_path(const message &m1, const message &m2);
+
 
