@@ -12,7 +12,7 @@
 #include <string>
 
 #define MASK 0xffffffff
-#define R 21
+#define R 22
 #define CLIQUE_SIZE 35
 #define CLIQUES_COUNT 5000
 #define STEP 40
@@ -96,9 +96,9 @@ void kerbosh(vector<vector<char>> &a, int SIZE, set<int> &clique, vector<vector<
 
 
 class DifferentialPath{
-	vector<vector<int>> path;
+	vector<vector<char>> path;
 public:
-	DifferentialPath(const message &m1, const message &m2);
+	DifferentialPath();
 	int check(const message &m1, const message &m2)const;
 };
 
@@ -129,5 +129,3 @@ void print_results_full(const message &m1, const message &m2, const message &sta
 void print_results_two_blocks(const message &m1, const message &m2);
 
 void check_differential_path(const message &m1, const message &m2);
-
-

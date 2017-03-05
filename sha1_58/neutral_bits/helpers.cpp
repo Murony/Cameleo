@@ -132,7 +132,7 @@ void print_results(const message &m1, const message &m2, const message &start_m1
 
 void print_results_full(const message &m1, const message &m2, const message &start_m1, const message &start_m2){
 	ofstream fout("results_tex.txt");
-	for (int i = 0; i < 40; i++){
+	for (int i = 0; i < 64; i++){
 		fout << dec << "t=" << i << " & " << hex << m1.W[i] << " & " << m2.W[i] << " & " << m1.a[i + 1] << " & " << m2.a[i + 1] << " & " << (m1.a[i + 1] ^ m2.a[i + 1]) << " \\\\ \\hline" << endl;
 	}
 	fout.close();
