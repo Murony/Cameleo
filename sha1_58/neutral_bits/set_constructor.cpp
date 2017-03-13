@@ -55,7 +55,7 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	//cout << "pairs time: " << time(NULL) - seconds << endl;
 	seconds = time(NULL);
 
-	/*
+	//*
 	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
 		message tmp_m1(M1);
@@ -247,27 +247,26 @@ void find_best_pair(message &M1, message &M2, const difference &D, const Differe
 	vector<vector<int>> neutral_vectors;
 	vector<vector<int>> tmp_neutral_vectors;
 	vector<vector<int>> final_set;
-	//construct_neutral_set(M1, M2, D);
+	construct_neutral_set(M1, M2, D, P);
 
 	read(neutral_vectors);
 
 	cout << dec << endl << "new size " << neutral_vectors.size() << endl;
-
-	message tmp1 = message(M1.W);
-	message tmp2 = message(M2.W);
 
 	set<int> clique;
 	int max_clique_size = 15;
 
 	for (auto i = neutral_vectors.begin(); i != neutral_vectors.end(); i++){
 		cout << endl << (*i)[0] << " " << (*i)[1] << " " << (*i)[2] << " " << (*i)[3] << " " << (*i)[4] << endl;
-		tmp1.W = M1.W;
-		tmp2.W = M2.W;
+		message tmp1(M1);
+		message tmp2(M2);
 		xor(tmp1.W, *i);
 		xor(tmp2.W, *i);
 		D.modify(tmp1, tmp2);
 		construct_neutral_set(tmp1, tmp2, D, P);
 		read(tmp_neutral_vectors);
+		cout << endl << tmp_neutral_vectors.size() << endl;
+
 		adj_matrix adj(tmp_neutral_vectors.size());
 		adj.fill(tmp_neutral_vectors, tmp1, tmp2, D, P);
 		kerbosh(adj.adj, adj.adj[1].size(), clique, tmp_neutral_vectors);

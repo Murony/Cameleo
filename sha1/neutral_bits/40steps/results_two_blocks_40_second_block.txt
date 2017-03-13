@@ -1,6 +1,6 @@
 $A_0$ & 2b0283ff & 2b0283ff & 0 \\ \hline
-$B_0$ & 1e8dd54e & 5e8dd54e & 0 \\ \hline
-$C_0$ & deb06917 & feb06917 & 0 \\ \hline
+$B_0$ & 1e8dd54e & 5e8dd54e & 40000000 \\ \hline
+$C_0$ & deb06917 & feb06917 & 20000000 \\ \hline
 $D_0$ & e978c73e & e978c73e & 0 \\ \hline
 $E_0$ & 19ae1eeb & 19ae1eeb & 0 \\ \hline
 $A_{40}$ & cdc11fb0 & cdc11fb0 & 0 \\ \hline

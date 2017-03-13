@@ -1,0 +1,12 @@
+clique size 20
+388 -1 -1 -1 -1
+
+clique size 21
+421 -1 -1 -1 -1
+
+clique size 24
+453 -1 -1 -1 -1
+
+clique size 26
+486 -1 -1 -1 -1
+

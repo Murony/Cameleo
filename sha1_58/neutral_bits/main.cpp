@@ -7,8 +7,8 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 	for (int i = 0; i < 40; i++)
 		power[pow(2, i)] = i;
 
-	long long min_power = 121164;// pow(2, 0);
-	long long max_power = 121164 + 1;// pow(2, 19);
+	long long min_power = pow(2, 0);		//	121164		169436		20930652
+	long long max_power = pow(2, 33);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -36,15 +36,17 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 			}
 			k++;
 		}
-		D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]);
-		if (P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 36){
+		//D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]);
+		tmp1[omp_get_thread_num()].modify(tmp1[omp_get_thread_num()].W,64);
+		tmp2[omp_get_thread_num()].modify(tmp2[omp_get_thread_num()].W,64);
+		if (P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 56){
 				#pragma omp critical
 				{
 					cout << "i=" << dec << i << " " << P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) << endl;
 					found_i << "i=" << dec << i << " " << P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) << endl;
 				}
-			//print_results(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2, 52);
-			print_results_full(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2);
+			//print_results(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2, 58);
+			//print_results_full(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2);
 			//print_results_two_blocks(M1, M2);
 			//D.print(80);
 			//D.print(tmp1[omp_get_thread_num()], M1, 16);
@@ -114,6 +116,13 @@ void main(){
 
 	DifferentialPath P;
 	cout << endl << dec << P.check(M1, M2) << endl;
+
+	M1.modify(xor_vec(M1.W, -1, -1, -1, -1, -1), 64);	//	425, 486, 489 501
+	M2.modify(xor_vec(M2.W, -1, -1, -1, -1, -1), 64);
+	
+
+	//find_best_pair(M1, M2, D, P);
+	//return;
 
 	vector<vector<int>> final_set;
 
