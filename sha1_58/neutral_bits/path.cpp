@@ -15,6 +15,18 @@ DifferentialPath::DifferentialPath(){
 		path.push_back(tmp);
 		cout << endl;
 	}
+	fclose(f);
+	fopen_s(&f, "diff_w.txt", "r");
+	for (int j = 0; j <= 65; j++){
+		for (int i = 31; i >= 0; i--){
+			fscanf_s(f, "%c", &tmp[i]);
+			cout << tmp[i];
+		}
+		fscanf_s(f, "%c", &q);
+		path_w.push_back(tmp);
+		cout << endl;
+	}
+	fclose(f);
 }
 
 char letter(int a, int b, int c){
@@ -52,6 +64,9 @@ int DifferentialPath::check(const message &m1, const message &m2)const{
 			//cout << endl << tmp[j] << path[i][j] << endl << compareLetters(tmp[j], path[i][j]) << endl;
 			if (!compareLetters(tmp[j], path[i][j]))
 				k[i]++;
+			//tmp[j] = letter(int((m1.W[i] >> j) & 1) - int((m2.W[i] >> j) & 1), int((m1.W[i] >> j) & 1), int((m2.W[i] >> j) & 1));
+			//if (!compareLetters(tmp[j], path_w[i][j]))
+				//return i-1;
 		}
 		if (k[i] > 5)
 			return i - 1;
@@ -60,4 +75,11 @@ int DifferentialPath::check(const message &m1, const message &m2)const{
 }
 
 
-
+bool DifferentialPath::checkBit(int bit)const{
+	if (path_w[bit / 32][bit % 32] == '-'){
+		return true;
+	}
+	else{
+		return false;
+	}
+}

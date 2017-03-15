@@ -12,9 +12,9 @@
 #include <string>
 
 #define MASK 0xffffffff
-#define R 21
+#define R 22
 #define CLIQUE_SIZE 35
-#define CLIQUES_COUNT 5000
+#define CLIQUES_COUNT 10000
 #define STEP 40
 
 using namespace std;
@@ -97,9 +97,11 @@ void kerbosh(vector<vector<char>> &a, int SIZE, set<int> &clique, vector<vector<
 
 class DifferentialPath{
 	vector<vector<char>> path;
+	vector<vector<char>> path_w;
 public:
 	DifferentialPath();
 	int check(const message &m1, const message &m2)const;
+	bool checkBit(int bit)const;
 };
 
 class adj_matrix{

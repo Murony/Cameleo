@@ -8,7 +8,7 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 		power[pow(2, i)] = i;
 
 	long long min_power = pow(2, 0);		//	121164		169436		20930652
-	long long max_power = pow(2, 33);
+	long long max_power = pow(2, 29);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -39,7 +39,7 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 		//D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]);
 		tmp1[omp_get_thread_num()].modify(tmp1[omp_get_thread_num()].W,64);
 		tmp2[omp_get_thread_num()].modify(tmp2[omp_get_thread_num()].W,64);
-		if (P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 56){
+		if (P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 58){
 				#pragma omp critical
 				{
 					cout << "i=" << dec << i << " " << P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) << endl;
@@ -117,8 +117,11 @@ void main(){
 	DifferentialPath P;
 	cout << endl << dec << P.check(M1, M2) << endl;
 
-	M1.modify(xor_vec(M1.W, -1, -1, -1, -1, -1), 64);	//	425, 486, 489 501
-	M2.modify(xor_vec(M2.W, -1, -1, -1, -1, -1), 64);
+	M1.modify(xor_vec(M1.W, 425, 489, 501, -1, -1), 64);	//	425, 486, 489 501
+	M2.modify(xor_vec(M2.W, 425, 489, 501, -1, -1), 64);
+
+	M1.modify(xor_vec(M1.W, 430, 504, -1, -1, -1), 64);	
+	M2.modify(xor_vec(M2.W, 430, 504, -1, -1, -1), 64);	//486
 	
 
 	//find_best_pair(M1, M2, D, P);

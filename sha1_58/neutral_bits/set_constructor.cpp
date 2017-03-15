@@ -12,15 +12,17 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	ofstream pairs("pairs.txt");
 	set<int> bad_set;
 	for (int v = 0; v < 512; v++){
-		message tmp_m1(M1);
-		message tmp_m2(M2);
-		tmp_m1.modify(xor_vec(M1.W, v, -1, -1, -1, -1), R);
-		tmp_m2.modify(xor_vec(M2.W, v, -1, -1, -1, -1), R);
-		if (P.check(tmp_m1, tmp_m2) >= R){
-			#pragma omp critical
-			{
-				pairs << v << " -1 -1 -1 -1" << endl;
-				bad_set.insert(v);
+		if (P.checkBit(v)){
+			message tmp_m1(M1);
+			message tmp_m2(M2);
+			tmp_m1.modify(xor_vec(M1.W, v, -1, -1, -1, -1), R);
+			tmp_m2.modify(xor_vec(M2.W, v, -1, -1, -1, -1), R);
+			if (P.check(tmp_m1, tmp_m2) >= R){
+				#pragma omp critical
+				{
+					pairs << v << " -1 -1 -1 -1" << endl;
+					bad_set.insert(v);
+				}
 			}
 		}
 	}
@@ -32,18 +34,20 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	//*
 	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
-		message tmp_m1(M1);
-		message tmp_m2(M2);
-		if (bad_set.find(v) == bad_set.end()){
-			for (int q = v + 1; q < 512; q++){
-				if (bad_set.find(q) == bad_set.end()){
-					tmp_m1.modify(xor_vec(M1.W, v, q, -1, -1, -1), R);
-					tmp_m2.modify(xor_vec(M2.W, v, q, -1, -1, -1), R);
-					if (P.check(tmp_m1, tmp_m2) >= R){
-						#pragma omp critical
-						{
-							pairs << v << " " << q << " -1 -1 -1" <<endl;
-							//bad_pairs.insert(vector<int>{v,q});
+		if (P.checkBit(v)){
+			message tmp_m1(M1);
+			message tmp_m2(M2);
+			if (bad_set.find(v) == bad_set.end()){
+				for (int q = v + 1; q < 512; q++){
+					if (P.checkBit(q) && (bad_set.find(q) == bad_set.end())){
+						tmp_m1.modify(xor_vec(M1.W, v, q, -1, -1, -1), R);
+						tmp_m2.modify(xor_vec(M2.W, v, q, -1, -1, -1), R);
+						if (P.check(tmp_m1, tmp_m2) >= R){
+							#pragma omp critical
+							{
+								pairs << v << " " << q << " -1 -1 -1" << endl;
+								//bad_pairs.insert(vector<int>{v,q});
+							}
 						}
 					}
 				}
@@ -58,26 +62,27 @@ void construct_neutral_set(const message &M1, const message &M2, const differenc
 	//*
 	#pragma omp parallel for
 	for (int v = 0; v < 512; v++){
-		message tmp_m1(M1);
-		message tmp_m2(M2);
-		time_t t = time(NULL);
-		if (bad_set.find(v) == bad_set.end()){
-			for (int q = v + 1; q < 512; q++){
-				if ((bad_set.find(q) == bad_set.end()) 
-					//&& (bad_pairs.find({ v, q }) == bad_pairs.end())
-					){
-					for (int w = q + 1; w < 512; w++){
-						if ((bad_set.find(w) == bad_set.end()) 
-							//&& (bad_pairs.find({ v, w }) == bad_pairs.end()) 
-							//&& (bad_pairs.find({ q, w }) == bad_pairs.end())
-							){
-							tmp_m1.modify(xor_vec(M1.W, v, q, w, -1, -1), R);
-							tmp_m2.modify(xor_vec(M2.W, v, q, w, -1, -1), R);
-							if (P.check(tmp_m1, tmp_m2) >= R){
-								#pragma omp critical
-								{
-									pairs << v << " " << q << " " << w << " -1 -1" << endl;
-									//bad_pairs.insert(vector<int>{v, q, w});
+		if (P.checkBit(v)){
+			message tmp_m1(M1);
+			message tmp_m2(M2);
+			if (bad_set.find(v) == bad_set.end()){
+				for (int q = v + 1; q < 512; q++){
+					if (P.checkBit(q) && (bad_set.find(q) == bad_set.end())
+						//&& (bad_pairs.find({ v, q }) == bad_pairs.end())
+						){
+						for (int w = q + 1; w < 512; w++){
+							if (P.checkBit(w) && (bad_set.find(w) == bad_set.end())
+								//&& (bad_pairs.find({ v, w }) == bad_pairs.end()) 
+								//&& (bad_pairs.find({ q, w }) == bad_pairs.end())
+								){
+								tmp_m1.modify(xor_vec(M1.W, v, q, w, -1, -1), R);
+								tmp_m2.modify(xor_vec(M2.W, v, q, w, -1, -1), R);
+								if (P.check(tmp_m1, tmp_m2) >= R){
+									#pragma omp critical
+									{
+										pairs << v << " " << q << " " << w << " -1 -1" << endl;
+										//bad_pairs.insert(vector<int>{v, q, w});
+									}
 								}
 							}
 						}
