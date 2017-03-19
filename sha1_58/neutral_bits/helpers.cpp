@@ -79,6 +79,20 @@ vector<int> convert_vector(const vector<unsigned> &v){
 	return neutral_set;
 }
 
+vector<int> convert_vector_long(const vector<unsigned> &v){
+	int k = 0;
+	vector<int> neutral_set(20, -1);
+	for (int i = 0; i < 16; i++){
+		for (int j = 0; j < 32; j++){
+			if ((v[i] & (1 << j)) != 0){
+				neutral_set[k] = i * 32 + j;
+				k++;
+			}
+		}
+	}
+	return neutral_set;
+}
+
 int global_count = 0;
 
 void show_clique(const set<int> &clique, const vector<vector<int>> &new_neutral_bits_set, vector<vector<int>> &final_set){

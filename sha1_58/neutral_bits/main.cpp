@@ -7,8 +7,8 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 	for (int i = 0; i < 40; i++)
 		power[pow(2, i)] = i;
 
-	long long min_power = 732055732;// pow(2, 28);		//	121164		169436		20930652
-	long long max_power = 732055732 + 1;// pow(2, 33);
+	long long min_power = pow(2, 0);	
+	long long max_power = pow(2, 35);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -117,34 +117,30 @@ void main(){
 	DifferentialPath P;
 	cout << endl << dec << P.check(M1, M2) << endl;
 
-	//M1.modify(xor_vec(M1.W, 393, 423, 463, -1, -1), 64);
-	//M2.modify(xor_vec(M2.W, 393, 423, 463, -1, -1), 64);
+	M1.modify(xor_vec(M1.W, 393, -1, -1, -1, 498), 64);
+	M2.modify(xor_vec(M2.W, 393, -1, -1, -1, 498), 64);
 
-	//M1.modify(xor_vec(M1.W, 393, 392, 457, 425, -1), 64);
-	//M2.modify(xor_vec(M2.W, 393, 392, 457, 425, -1), 64);
+	M1.modify(xor_vec(M1.W, 203, 240, 241, 263, 300), 64);
+	M2.modify(xor_vec(M2.W, 203, 240, 241, 263, 300), 64);
 
-	//456
-	
-	//M1.modify(xor_vec(M1.W, 452, 458, 494, -1, -1), 64);
-	//M2.modify(xor_vec(M2.W, 452, 458, 494, -1, -1), 64);
+	M1.modify(xor_vec(M1.W, 334, 424, 429, 463, 496), 64);
+	M2.modify(xor_vec(M2.W, 334, 424, 429, 463, 496), 64);
 
-	/*
-	M1.modify(xor_vec(M1.W, 425, 489, 501, -1, -1), 64);	//	425, 486, 489 501
-	M2.modify(xor_vec(M2.W, 425, 489, 501, -1, -1), 64);
+	/*M1.modify(xor_vec(M1.W, 393, 496, 457, 463, -1), 64);
+	M2.modify(xor_vec(M2.W, 393, 496, 457, 463, -1), 64);
 
-	M1.modify(xor_vec(M1.W, 430, 504, -1, -1, -1), 64);	
-	M2.modify(xor_vec(M2.W, 430, 504, -1, -1, -1), 64);	//486
-	*/
+	M1.modify(xor_vec(M1.W, 203, 240, 241, 297, 361), 64);	
+	M2.modify(xor_vec(M2.W, 203, 240, 241, 297, 361), 64);*/
 
-	ofstream changes("good_changes.txt");
-	findPairTree(M1, M2, D, P, 20, changes, 1);
+	//ofstream changes("good_changes.txt");
+	//findPairTree(M1, M2, D, P, 20, changes, 1, M1, M2);
 	
 	//find_best_pair(M1, M2, D, P);
-	return;
+	//return;
 
 	vector<vector<int>> final_set;
 
-	int just_read_from_file = 0;
+	int just_read_from_file = 1;
 	if (just_read_from_file){
 		read_clique(final_set);
 		cout << dec << "final set size:" << final_set.size() << endl;
@@ -158,23 +154,6 @@ void main(){
 	else{
 		constructor(M1, M2, D, P);
 	}
-
-	//D.print(M1, M2, 58);
-	//print_results(M1,M2, M1, M2, 16);
-
-
-
-	//print_results_two_blocks(M1,M2);
-
-	//*
-	
-	//find_best_pair(M1, M2, D, P);
-
-	//cout << "===DONE===" << endl;
-	//return;
-	//*/
-
-
 
 	getchar();
 };

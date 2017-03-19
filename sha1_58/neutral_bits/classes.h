@@ -25,6 +25,8 @@ vector<unsigned> xor_vec(const vector<unsigned> &a, const vector<unsigned> &b, c
 
 vector<unsigned> xor_vec(vector<unsigned> a, const vector<int> &v1, const vector<int> &v2);
 
+vector<int> convert_vector_long(const vector<unsigned> &v);
+
 inline
 vector<unsigned> xor_vec(vector<unsigned> a, const vector<int> &vec){
 	for (int i = 0; i < 5; i++){
@@ -132,4 +134,4 @@ void print_results_two_blocks(const message &m1, const message &m2, int last_ste
 
 void check_differential_path(const message &m1, const message &m2);
 
-void findPairTree(message &M1, message &M2, const difference &D, const DifferentialPath &P, int max_clique_size, ofstream& changes, int counter);
+void findPairTree(message &M1, message &M2, const difference &D, const DifferentialPath &P, int max_clique_size, ofstream& changes, int counter, message &M1_old, message &M2_old);

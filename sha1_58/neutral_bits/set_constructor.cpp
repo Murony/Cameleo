@@ -282,7 +282,16 @@ void find_best_pair(message &M1, message &M2, const difference &D, const Differe
 }
 
 
-void findPairTree(message &M1, message &M2, const difference &D, const DifferentialPath &P, int max_clique_size, ofstream& changes, int counter){
+void printGoodBits(const message &M1, const message &tmp1, ofstream& changes){
+	vector<int> v =  convert_vector_long(xor_vec(M1.W, tmp1.W));
+	for (int i = 0; i < v.size(); i++){
+		changes << v[i] << " ";
+		cout << v[i] << " ";
+	}
+	cout << endl << endl;
+}
+
+void findPairTree(message &M1, message &M2, const difference &D, const DifferentialPath &P, int max_clique_size, ofstream& changes, int counter, message &M1_old, message &M2_old){
 	if (counter > 10)
 		return;
 	vector<vector<int>> neutral_vectors;
@@ -293,7 +302,6 @@ void findPairTree(message &M1, message &M2, const difference &D, const Different
 	set<int> clique;
 	vector<vector<int>> best_bits;
 	for (auto i = neutral_vectors.begin(); i != neutral_vectors.end(); i++){
-		//cout << endl << (*i)[0] << " " << (*i)[1] << " " << (*i)[2] << " " << (*i)[3] << " " << (*i)[4] << endl;
 		message tmp1(M1);
 		message tmp2(M2);
 		xor(tmp1.W, *i);
@@ -305,16 +313,15 @@ void findPairTree(message &M1, message &M2, const difference &D, const Different
 		adj.fill(tmp_neutral_vectors, tmp1, tmp2, D, P);
 		kerbosh(adj.adj, adj.adj[1].size(), clique, tmp_neutral_vectors);
 		if (clique.size() == max_clique_size){
-			//changes << "clique size " << clique.size() << endl;
-			//changes << (*i)[0] << " " << (*i)[1] << " " << (*i)[2] << " " << (*i)[3] << " " << (*i)[4] << endl << endl;
 			first_level.push_back({ (*i)[0], (*i)[1], (*i)[2], (*i)[3], (*i)[4] });
 		}
 		if (clique.size() > max_clique_size){
-			changes << "clique size " << clique.size() << endl;
-			changes << (*i)[0] << " " << (*i)[1] << " " << (*i)[2] << " " << (*i)[3] << " " << (*i)[4] << endl << endl;
 			max_clique_size = clique.size();
 			first_level.clear();
 			first_level.push_back({ (*i)[0], (*i)[1], (*i)[2], (*i)[3], (*i)[4] });
+			if (clique.size() >= 35){
+				printGoodBits(M1_old, tmp1, changes);
+			}
 		}
 		tmp_neutral_vectors.clear();
 		clique.clear();
@@ -326,8 +333,7 @@ void findPairTree(message &M1, message &M2, const difference &D, const Different
 		xor(tmp1.W, *i);
 		xor(tmp2.W, *i);
 		D.modify(tmp1, tmp2);
-		findPairTree(tmp1, tmp2, D, P, max_clique_size, changes, ++counter);
+		findPairTree(tmp1, tmp2, D, P, max_clique_size, changes, ++counter, M1_old, M2_old);
 	}
-
 	return;
 }
