@@ -140,11 +140,11 @@ void print_results_full(const message &m1, const message &m2, const message &sta
 
 void print_results_two_blocks(const message &M1, const message &M2){
 	ofstream fout("results_two_blocks.txt");
-	fout << "$A_0$" << " & " << hex << M1.a[0] << " & " << M2.a[0] << " & " << (M1.a[0] ^ M1.a[0]) << " \\\\ \\hline" << endl;
-	fout << "$B_0$" << " & " << hex << M1.b[0] << " & " << M2.b[0] << " & " << (M1.b[0] ^ M1.b[0]) << " \\\\ \\hline" << endl;
-	fout << "$C_0$" << " & " << hex << M1.c[0] << " & " << M2.c[0] << " & " << (M1.c[0] ^ M1.c[0]) << " \\\\ \\hline" << endl;
-	fout << "$D_0$" << " & " << hex << M1.d[0] << " & " << M2.d[0] << " & " << (M1.d[0] ^ M1.d[0]) << " \\\\ \\hline" << endl;
-	fout << "$E_0$" << " & " << hex << M1.e[0] << " & " << M2.e[0] << " & " << (M1.e[0] ^ M1.e[0]) << " \\\\ \\hline" << endl;
+	fout << "$A_0$" << " & " << hex << M1.a[0] << " & " << M2.a[0] << " & " << (M1.a[0] ^ M2.a[0]) << " \\\\ \\hline" << endl;
+	fout << "$B_0$" << " & " << hex << M1.b[0] << " & " << M2.b[0] << " & " << (M1.b[0] ^ M2.b[0]) << " \\\\ \\hline" << endl;
+	fout << "$C_0$" << " & " << hex << M1.c[0] << " & " << M2.c[0] << " & " << (M1.c[0] ^ M2.c[0]) << " \\\\ \\hline" << endl;
+	fout << "$D_0$" << " & " << hex << M1.d[0] << " & " << M2.d[0] << " & " << (M1.d[0] ^ M2.d[0]) << " \\\\ \\hline" << endl;
+	fout << "$E_0$" << " & " << hex << M1.e[0] << " & " << M2.e[0] << " & " << (M1.e[0] ^ M2.e[0]) << " \\\\ \\hline" << endl;
 	fout << "$A_{40}$" << " & " << hex << M1.a[40] << " & " << M2.a[40] << " & " << (M1.a[40] ^ M2.a[40]) << " \\\\ \\hline" << endl;
 	fout << "$B_{40}$" << " & " << hex << M1.b[40] << " & " << M2.b[40] << " & " << (M1.b[40] ^ M2.b[40]) << " \\\\ \\hline" << endl;
 	fout << "$C_{40}$" << " & " << hex << M1.c[40] << " & " << M2.c[40] << " & " << (M1.c[40] ^ M2.c[40]) << " \\\\ \\hline" << endl;

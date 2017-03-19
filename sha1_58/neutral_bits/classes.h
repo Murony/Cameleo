@@ -12,10 +12,10 @@
 #include <string>
 
 #define MASK 0xffffffff
-#define R 22
+#define R 20
 #define CLIQUE_SIZE 35
 #define CLIQUES_COUNT 10000
-#define STEP 40
+#define STEP 64
 
 using namespace std;
 
@@ -128,6 +128,8 @@ bool not_intersect(vector<int> a, vector<int> b);
 
 void print_results_full(const message &m1, const message &m2, const message &start_m1, const message &start_m2);
 
-void print_results_two_blocks(const message &m1, const message &m2);
+void print_results_two_blocks(const message &m1, const message &m2, int last_step);
 
 void check_differential_path(const message &m1, const message &m2);
+
+void findPairTree(message &M1, message &M2, const difference &D, const DifferentialPath &P, int max_clique_size, ofstream& changes, int counter);

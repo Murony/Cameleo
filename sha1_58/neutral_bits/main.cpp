@@ -7,8 +7,8 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 	for (int i = 0; i < 40; i++)
 		power[pow(2, i)] = i;
 
-	long long min_power = pow(2, 0);		//	121164		169436		20930652
-	long long max_power = pow(2, 29);
+	long long min_power = 732055732;// pow(2, 28);		//	121164		169436		20930652
+	long long max_power = 732055732 + 1;// pow(2, 33);
 	
 	message tmp1[16];
 	message tmp2[16];
@@ -23,7 +23,7 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 		tmp2[i] = message(M2.W);
 	}
 	
-	omp_set_num_threads(16);
+	omp_set_num_threads(7);
 	#pragma omp parallel for
 	for (long long i = min_power; i < max_power; i++){
 		tmp1[omp_get_thread_num()] = M1;
@@ -39,15 +39,15 @@ void brute_force(const vector<vector<int>> &final_set, const message &M1, const 
 		//D.modify(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]);
 		tmp1[omp_get_thread_num()].modify(tmp1[omp_get_thread_num()].W,64);
 		tmp2[omp_get_thread_num()].modify(tmp2[omp_get_thread_num()].W,64);
-		if (P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 58){
+		if (P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) >= 60){
 				#pragma omp critical
 				{
 					cout << "i=" << dec << i << " " << P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) << endl;
 					found_i << "i=" << dec << i << " " << P.check(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()]) << endl;
 				}
-			//print_results(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2, 58);
+			//print_results(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2, 64);
 			//print_results_full(tmp1[omp_get_thread_num()], tmp2[omp_get_thread_num()], M1, M2);
-			//print_results_two_blocks(M1, M2);
+			//print_results_two_blocks(M1, M2, 64);
 			//D.print(80);
 			//D.print(tmp1[omp_get_thread_num()], M1, 16);
 
@@ -117,19 +117,34 @@ void main(){
 	DifferentialPath P;
 	cout << endl << dec << P.check(M1, M2) << endl;
 
+	//M1.modify(xor_vec(M1.W, 393, 423, 463, -1, -1), 64);
+	//M2.modify(xor_vec(M2.W, 393, 423, 463, -1, -1), 64);
+
+	//M1.modify(xor_vec(M1.W, 393, 392, 457, 425, -1), 64);
+	//M2.modify(xor_vec(M2.W, 393, 392, 457, 425, -1), 64);
+
+	//456
+	
+	//M1.modify(xor_vec(M1.W, 452, 458, 494, -1, -1), 64);
+	//M2.modify(xor_vec(M2.W, 452, 458, 494, -1, -1), 64);
+
+	/*
 	M1.modify(xor_vec(M1.W, 425, 489, 501, -1, -1), 64);	//	425, 486, 489 501
 	M2.modify(xor_vec(M2.W, 425, 489, 501, -1, -1), 64);
 
 	M1.modify(xor_vec(M1.W, 430, 504, -1, -1, -1), 64);	
 	M2.modify(xor_vec(M2.W, 430, 504, -1, -1, -1), 64);	//486
-	
+	*/
 
+	ofstream changes("good_changes.txt");
+	findPairTree(M1, M2, D, P, 20, changes, 1);
+	
 	//find_best_pair(M1, M2, D, P);
-	//return;
+	return;
 
 	vector<vector<int>> final_set;
 
-	int just_read_from_file = 1;
+	int just_read_from_file = 0;
 	if (just_read_from_file){
 		read_clique(final_set);
 		cout << dec << "final set size:" << final_set.size() << endl;
@@ -143,9 +158,6 @@ void main(){
 	else{
 		constructor(M1, M2, D, P);
 	}
-
-	getchar();
-	return;
 
 	//D.print(M1, M2, 58);
 	//print_results(M1,M2, M1, M2, 16);

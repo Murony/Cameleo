@@ -6,7 +6,7 @@ DifferentialPath::DifferentialPath(){
 	char q;
 	FILE* f;
 	fopen_s(&f, "diff.txt", "r");
-	for (int j = 0; j <= 65; j++){
+	for (int j = 0; j < 65; j++){
 		for (int i = 31; i >= 0; i--){
 			fscanf_s(f, "%c", &tmp[i]);
 			cout << tmp[i];
@@ -17,7 +17,7 @@ DifferentialPath::DifferentialPath(){
 	}
 	fclose(f);
 	fopen_s(&f, "diff_w.txt", "r");
-	for (int j = 0; j <= 65; j++){
+	for (int j = 0; j < 64; j++){
 		for (int i = 31; i >= 0; i--){
 			fscanf_s(f, "%c", &tmp[i]);
 			cout << tmp[i];

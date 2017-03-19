@@ -138,23 +138,23 @@ void print_results_full(const message &m1, const message &m2, const message &sta
 	fout.close();
 }
 
-void print_results_two_blocks(const message &M1, const message &M2){
+void print_results_two_blocks(const message &M1, const message &M2, int last_step){
 	ofstream fout("results_two_blocks.txt");
-	fout << "$A_0$" << " & " << hex << M1.a[0] << " & " << M2.a[0] << " & " << (M1.a[0] ^ M1.a[0]) << " \\\\ \\hline" << endl;
-	fout << "$B_0$" << " & " << hex << M1.b[0] << " & " << M2.b[0] << " & " << (M1.b[0] ^ M1.b[0]) << " \\\\ \\hline" << endl;
-	fout << "$C_0$" << " & " << hex << M1.c[0] << " & " << M2.c[0] << " & " << (M1.c[0] ^ M1.c[0]) << " \\\\ \\hline" << endl;
-	fout << "$D_0$" << " & " << hex << M1.d[0] << " & " << M2.d[0] << " & " << (M1.d[0] ^ M1.d[0]) << " \\\\ \\hline" << endl;
-	fout << "$E_0$" << " & " << hex << M1.e[0] << " & " << M2.e[0] << " & " << (M1.e[0] ^ M1.e[0]) << " \\\\ \\hline" << endl;
-	fout << "$A_{40}$" << " & " << hex << M1.a[40] << " & " << M2.a[40] << " & " << (M1.a[40] ^ M2.a[40]) << " \\\\ \\hline" << endl;
-	fout << "$B_{40}$" << " & " << hex << M1.b[40] << " & " << M2.b[40] << " & " << (M1.b[40] ^ M2.b[40]) << " \\\\ \\hline" << endl;
-	fout << "$C_{40}$" << " & " << hex << M1.c[40] << " & " << M2.c[40] << " & " << (M1.c[40] ^ M2.c[40]) << " \\\\ \\hline" << endl;
-	fout << "$D_{40}$" << " & " << hex << M1.d[40] << " & " << M2.d[40] << " & " << (M1.d[40] ^ M2.d[40]) << " \\\\ \\hline" << endl;
-	fout << "$E_{40}$" << " & " << hex << M1.e[40] << " & " << M2.e[40] << " & " << (M1.e[40] ^ M2.e[40]) << " \\\\ \\hline" << endl;
-	fout << "$A_0 + A_{40}$" << " & " << hex << (M1.a[0] + M1.a[40]) << " & " << (M2.a[0] + M2.a[40]) << " & " << ((M2.a[0] + M2.a[40]) ^ (M1.a[0] + M1.a[40])) << " \\\\ \\hline" << endl;
-	fout << "$B_0 + B_{40}$" << " & " << hex << (M1.b[0] + M1.b[40]) << " & " << (M2.b[0] + M2.b[40]) << " & " << ((M2.b[0] + M2.b[40]) ^ (M1.b[0] + M1.b[40])) << " \\\\ \\hline" << endl;
-	fout << "$C_0 + C_{40}$" << " & " << hex << (M1.c[0] + M1.c[40]) << " & " << (M2.c[0] + M2.c[40]) << " & " << ((M2.c[0] + M2.c[40]) ^ (M1.c[0] + M1.c[40])) << " \\\\ \\hline" << endl;
-	fout << "$D_0 + D_{40}$" << " & " << hex << (M1.d[0] + M1.d[40]) << " & " << (M2.d[0] + M2.d[40]) << " & " << ((M2.d[0] + M2.d[40]) ^ (M1.d[0] + M1.d[40])) << " \\\\ \\hline" << endl;
-	fout << "$E_0 + E_{40}$" << " & " << hex << (M1.e[0] + M1.e[40]) << " & " << (M2.e[0] + M2.e[40]) << " & " << ((M2.e[0] + M2.e[40]) ^ (M1.e[0] + M1.e[40])) << " \\\\ \\hline" << endl;
+	fout << "$A_0$" << " & " << hex << M1.a[0] << " & " << M2.a[0] << " & " << (M1.a[0] ^ M2.a[0]) << " \\\\ \\hline" << endl;
+	fout << "$B_0$" << " & " << hex << M1.b[0] << " & " << M2.b[0] << " & " << (M1.b[0] ^ M2.b[0]) << " \\\\ \\hline" << endl;
+	fout << "$C_0$" << " & " << hex << M1.c[0] << " & " << M2.c[0] << " & " << (M1.c[0] ^ M2.c[0]) << " \\\\ \\hline" << endl;
+	fout << "$D_0$" << " & " << hex << M1.d[0] << " & " << M2.d[0] << " & " << (M1.d[0] ^ M2.d[0]) << " \\\\ \\hline" << endl;
+	fout << "$E_0$" << " & " << hex << M1.e[0] << " & " << M2.e[0] << " & " << (M1.e[0] ^ M2.e[0]) << " \\\\ \\hline" << endl;
+	fout << "$A_{" << dec << last_step << hex << "}$" << " & " << hex << M1.a[last_step] << " & " << M2.a[last_step] << " & " << (M1.a[last_step] ^ M2.a[last_step]) << " \\\\ \\hline" << endl;
+	fout << "$B_{" << dec << last_step << hex << "}$" << " & " << hex << M1.b[last_step] << " & " << M2.b[last_step] << " & " << (M1.b[last_step] ^ M2.b[last_step]) << " \\\\ \\hline" << endl;
+	fout << "$C_{" << dec << last_step << hex << "}$" << " & " << hex << M1.c[last_step] << " & " << M2.c[last_step] << " & " << (M1.c[last_step] ^ M2.c[last_step]) << " \\\\ \\hline" << endl;
+	fout << "$D_{" << dec << last_step << hex << "}$" << " & " << hex << M1.d[last_step] << " & " << M2.d[last_step] << " & " << (M1.d[last_step] ^ M2.d[last_step]) << " \\\\ \\hline" << endl;
+	fout << "$E_{" << dec << last_step << hex << "}$" << " & " << hex << M1.e[last_step] << " & " << M2.e[last_step] << " & " << (M1.e[last_step] ^ M2.e[last_step]) << " \\\\ \\hline" << endl;
+	fout << "$A_0 + A_{" << dec << last_step << hex << "}$" << " & " << hex << (M1.a[0] + M1.a[last_step]) << " & " << (M2.a[0] + M2.a[last_step]) << " & " << ((M2.a[0] + M2.a[last_step]) ^ (M1.a[0] + M1.a[last_step])) << " \\\\ \\hline" << endl;
+	fout << "$B_0 + B_{" << dec << last_step << hex << "}$" << " & " << hex << (M1.b[0] + M1.b[last_step]) << " & " << (M2.b[0] + M2.b[last_step]) << " & " << ((M2.b[0] + M2.b[last_step]) ^ (M1.b[0] + M1.b[last_step])) << " \\\\ \\hline" << endl;
+	fout << "$C_0 + C_{" << dec << last_step << hex << "}$" << " & " << hex << (M1.c[0] + M1.c[last_step]) << " & " << (M2.c[0] + M2.c[last_step]) << " & " << ((M2.c[0] + M2.c[last_step]) ^ (M1.c[0] + M1.c[last_step])) << " \\\\ \\hline" << endl;
+	fout << "$D_0 + D_{" << dec << last_step << hex << "}$" << " & " << hex << (M1.d[0] + M1.d[last_step]) << " & " << (M2.d[0] + M2.d[last_step]) << " & " << ((M2.d[0] + M2.d[last_step]) ^ (M1.d[0] + M1.d[last_step])) << " \\\\ \\hline" << endl;
+	fout << "$E_0 + E_{" << dec << last_step << hex << "}$" << " & " << hex << (M1.e[0] + M1.e[last_step]) << " & " << (M2.e[0] + M2.e[last_step]) << " & " << ((M2.e[0] + M2.e[last_step]) ^ (M1.e[0] + M1.e[last_step])) << " \\\\ \\hline" << endl;
 	fout.close();
 }
 

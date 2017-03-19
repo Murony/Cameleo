@@ -82,8 +82,8 @@ void main(){
 
 	D.print(M1, M2, 40);
 
-	//print_results_two_blocks(M1,M2);
-	//return;
+	print_results_two_blocks(M1,M2);
+	return;
 
 	fopen_s(&f, "m1_40_block2.txt", "r");
 	for (int i = 0; i < 16; i++){
